@@ -23,7 +23,7 @@ public class OtlpServiceTests
     }
 
     [Fact]
-    public async void CallService_OtlpEndPoint_Success()
+    public async Task CallService_OtlpEndPoint_Success()
     {
         // Arrange
         await using var app = IntegrationTestHelpers.CreateDashboardWebApplication(_testOutputHelper);
@@ -40,7 +40,7 @@ public class OtlpServiceTests
     }
 
     [Fact]
-    public async void CallService_OtlpEndPoint_RequiredApiKeyMissing_Failure()
+    public async Task CallService_OtlpEndPoint_RequiredApiKeyMissing_Failure()
     {
         // Arrange
         var apiKey = "TestKey123!";
@@ -62,7 +62,7 @@ public class OtlpServiceTests
     }
 
     [Fact]
-    public async void CallService_OtlpEndPoint_RequiredApiKeyWrong_Failure()
+    public async Task CallService_OtlpEndPoint_RequiredApiKeyWrong_Failure()
     {
         // Arrange
         var apiKey = "TestKey123!";
@@ -89,7 +89,7 @@ public class OtlpServiceTests
     }
 
     [Fact]
-    public async void CallService_OtlpEndPoint_RequiredApiKeySent_Success()
+    public async Task CallService_OtlpEndPoint_RequiredApiKeySent_Success()
     {
         // Arrange
         var apiKey = "TestKey123!";
@@ -116,7 +116,7 @@ public class OtlpServiceTests
     }
 
     [Fact]
-    public async void CallService_BrowserEndPoint_Failure()
+    public async Task CallService_BrowserEndPoint_Failure()
     {
         // Arrange
         X509Certificate2? clientCallbackCert = null;
@@ -147,7 +147,7 @@ public class OtlpServiceTests
     }
 
     [Fact]
-    public async void CallService_OtlpEndpoint_RequiredClientCertificateMissing_Failure()
+    public async Task CallService_OtlpEndpoint_RequiredClientCertificateMissing_Failure()
     {
         // Arrange
         await using var app = IntegrationTestHelpers.CreateDashboardWebApplication(_testOutputHelper, config =>
@@ -179,7 +179,7 @@ public class OtlpServiceTests
     }
 
     [Fact]
-    public async void CallService_OtlpEndpoint_RequiredClientCertificateValid_Success()
+    public async Task CallService_OtlpEndpoint_RequiredClientCertificateValid_Success()
     {
         // Arrange
         X509Certificate2? clientCallbackCert = null;

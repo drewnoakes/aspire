@@ -204,7 +204,7 @@ public class StartupTests(ITestOutputHelper testOutputHelper)
     }
 
     [Fact]
-    public async void EndPointAccessors_AppStarted_BrowserGet_Success()
+    public async Task EndPointAccessors_AppStarted_BrowserGet_Success()
     {
         // Arrange
         await using var app = IntegrationTestHelpers.CreateDashboardWebApplication(testOutputHelper);

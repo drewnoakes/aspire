@@ -27,6 +27,8 @@ public sealed class ResourceViewModel
     public required FrozenDictionary<string, Value> Properties { get; init; }
     public required ImmutableArray<CommandViewModel> Commands { get; init; }
     public KnownResourceState? KnownState { get; init; }
+    public bool IsSystemResource { get; init; }
+    public bool IsDashboardExtension { get; init; }
 
     internal bool MatchesFilter(string filter)
     {

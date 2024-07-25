@@ -18,6 +18,8 @@ partial class Resource
             Uid = snapshot.Uid,
             State = snapshot.State ?? "",
             StateStyle = snapshot.StateStyle ?? "",
+            IsSystemResource = snapshot.IsSystemResource,
+            IsDashboardExtension = snapshot.IsDashboardExtension,
         };
 
         if (snapshot.CreationTimeStamp.HasValue)

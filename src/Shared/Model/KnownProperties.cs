@@ -23,6 +23,8 @@ internal static class KnownProperties
         public const string CreateTime = "resource.createTime";
         public const string Source = "resource.source";
         public const string ConnectionString = "resource.connectionString";
+        public const string IsSystemResource = "resource.isSystemResource";
+        public const string IsDashboardExtension = "resource.isDashboardExtension";
     }
 
     public static class Container

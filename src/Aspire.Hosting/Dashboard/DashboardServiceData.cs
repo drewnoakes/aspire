@@ -42,7 +42,9 @@ internal sealed class DashboardServiceData : IAsyncDisposable
                     Environment = snapshot.EnvironmentVariables,
                     ExitCode = snapshot.ExitCode,
                     State = snapshot.State?.Text,
-                    StateStyle = snapshot.State?.Style
+                    StateStyle = snapshot.State?.Style,
+                    IsSystemResource = false, // TODO implement this
+                    IsDashboardExtension = resource.Annotations.OfType<DashboardExtensionAnnotation>().Any()
                 };
             }
 

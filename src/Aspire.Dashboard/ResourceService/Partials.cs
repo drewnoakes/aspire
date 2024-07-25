@@ -31,7 +31,9 @@ partial class Resource
                 State = HasState ? State : null,
                 KnownState = HasState ? Enum.TryParse(State, out KnownResourceState knownState) ? knownState : null : null,
                 StateStyle = HasStateStyle ? StateStyle : null,
-                Commands = GetCommands()
+                Commands = GetCommands(),
+                IsSystemResource = IsSystemResource,
+                IsDashboardExtension = IsDashboardExtension
             };
         }
         catch (Exception ex)

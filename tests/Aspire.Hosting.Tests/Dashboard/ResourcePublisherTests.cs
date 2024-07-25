@@ -193,7 +193,9 @@ public class ResourcePublisherTests
             DisplayName = "",
             Urls = [],
             Volumes = [],
-            Environment = []
+            Environment = [],
+            IsSystemResource = false,
+            IsDashboardExtension = false
         };
     }
 }

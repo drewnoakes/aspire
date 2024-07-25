@@ -22,6 +22,8 @@ internal abstract class ResourceSnapshot
     public required DateTime? CreationTimeStamp { get; init; }
     public required ImmutableArray<EnvironmentVariableSnapshot> Environment { get; init; }
     public required ImmutableArray<VolumeSnapshot> Volumes { get; init; }
+    public required bool IsSystemResource { get; init; }
+    public required bool IsDashboardExtension { get; init; }
 
     public required ImmutableArray<UrlSnapshot> Urls { get; init; }
 
@@ -38,6 +40,16 @@ internal abstract class ResourceSnapshot
             yield return (KnownProperties.Resource.State, State is null ? Value.ForNull() : Value.ForString(State));
             yield return (KnownProperties.Resource.ExitCode, ExitCode is null ? Value.ForNull() : Value.ForString(ExitCode.Value.ToString("D", CultureInfo.InvariantCulture)));
             yield return (KnownProperties.Resource.CreateTime, CreationTimeStamp is null ? Value.ForNull() : Value.ForString(CreationTimeStamp.Value.ToString("O")));
+
+            if (IsSystemResource)
+            {
+                yield return (KnownProperties.Resource.IsSystemResource, Value.ForBool(true));
+            }
+
+            if (IsDashboardExtension)
+            {
+                yield return (KnownProperties.Resource.IsDashboardExtension, Value.ForBool(true));
+            }
 
             foreach (var pair in GetProperties())
             {

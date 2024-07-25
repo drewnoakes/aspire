@@ -170,6 +170,10 @@ message Resource {
 
     // The set of volumes mounted to the resource. Only applies to containers.
     repeated Volume volumes = 15;
+
+    optional bool is_system_resource = 16;
+
+    optional bool is_dashboard_extension = 17;
 }
 
 ////////////////////////////////////////////

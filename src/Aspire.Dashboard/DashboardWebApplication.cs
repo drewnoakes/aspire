@@ -14,6 +14,7 @@ using Aspire.Dashboard.Authentication.OpenIdConnect;
 using Aspire.Dashboard.Authentication.OtlpApiKey;
 using Aspire.Dashboard.Components;
 using Aspire.Dashboard.Configuration;
+using Aspire.Dashboard.Extensibility;
 using Aspire.Dashboard.Model;
 using Aspire.Dashboard.Otlp;
 using Aspire.Dashboard.Otlp.Grpc;
@@ -130,7 +131,7 @@ public sealed class DashboardWebApplication : IAsyncDisposable
         }
         else
         {
-            _validationFailures = Array.Empty<string>();
+            _validationFailures = [];
         }
 
         ConfigureKestrelEndpoints(builder, dashboardOptions);
@@ -194,6 +195,7 @@ public sealed class DashboardWebApplication : IAsyncDisposable
 
         // Data from the server.
         builder.Services.AddScoped<IDashboardClient, DashboardClient>();
+        builder.Services.AddScoped<IExtensionMonitor, ExtensionMonitor>();
 
         // OTLP services.
         builder.Services.AddGrpc();

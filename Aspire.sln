@@ -583,6 +583,7 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aspire.Hosting.Dapr.Tests", "tests\Aspire.Hosting.Dapr.Tests\Aspire.Hosting.Dapr.Tests.csproj", "{C60C5CFA-5B6D-4432-BFCD-54D1BEEC7DBE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aspire.Hosting.AWS.Tests", "tests\Aspire.Hosting.AWS.Tests\Aspire.Hosting.AWS.Tests.csproj", "{6F71BC73-B703-4E64-98E0-801781302E7A}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DashboardExtensibility", "DashboardExtensibility", "{350F4A60-97C3-4ABD-8951-BE064B4FC2E9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DashboardExtensibility.AppHost", "playground\DashboardExtensibility\DashboardExtensibility.AppHost\DashboardExtensibility.AppHost.csproj", "{E6E7FAD3-2449-4E37-96FD-4A16C01F24CE}"

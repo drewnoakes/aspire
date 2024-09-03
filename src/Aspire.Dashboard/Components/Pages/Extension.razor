@@ -1,0 +1,29 @@
+﻿@page "/extension/{extensionName}"
+
+@inject NavigationManager NavigationManager
+@* @inject ExtensionRouteService ExtensionRouteService *@
+
+@if (_extensionUrl != null)
+{
+    <iframe src="@_extensionUrl" style="width:100%; height:100%;"></iframe>
+}
+else
+{
+    <h3>Page not found</h3>
+}
+
+@code {
+    private string? _extensionUrl;
+
+    [Parameter]
+    public string? ExtensionName { get; set; }
+
+    protected override void OnInitialized()
+    {
+        var pp = ExtensionName;
+        var currentPath = NavigationManager.Uri.Replace(NavigationManager.BaseUri, "/");
+
+        // TODO look up extension URL by extension name
+        _extensionUrl = "https://localhost:7054/index.html"; // ExtensionRouteService.GetExtensionUrl(currentPath);
+    }
+}

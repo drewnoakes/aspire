@@ -1,1 +1,15 @@
-{}
+// The contents of this configuration file are read once by the dashboard, when
+// the extension is first identified as running. The data here is otherwise static.
+
+{
+  "topLevelPages": [
+    {
+      "title": "My Extension",
+      // TODO identify icon somehow
+      "icon": "",
+      "urlName": "my-extension",
+      // relative paths are relative to the extension's endpoint
+      "targetUrl": "/index.html"
+    }
+  ]
+}

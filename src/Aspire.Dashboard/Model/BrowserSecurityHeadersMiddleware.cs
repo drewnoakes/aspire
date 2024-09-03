@@ -35,8 +35,8 @@ internal sealed class BrowserSecurityHeadersMiddleware
         var content = "base-uri 'self'; " +
             "object-src 'none'; " +
             "script-src 'self'; " +
-            "style-src 'self' 'unsafe-inline'; " +
-            "frame-src 'none';";
+            "style-src 'self' 'unsafe-inline';";
+            //+ "frame-src 'none';";
 
         if (isHttps)
         {

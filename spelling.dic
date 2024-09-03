@@ -1,5 +1,5 @@
-ansi
 amqp
+ansi
 apigateway
 apiserver
 appsettings
@@ -25,6 +25,7 @@ entrypoint
 equatable
 grainstate
 grpc
+javascript
 kubeconfig
 Kubelet
 kubernetes
@@ -34,8 +35,8 @@ mongodb
 mssql
 mysql
 nats
-noreferrer
 noopener
+noreferrer
 npgsql
 oauth
 oninput
@@ -45,6 +46,7 @@ orleans
 otel
 otlp
 pgadmin
+pgweb
 postgre
 postgres
 protoc
@@ -61,5 +63,3 @@ unix
 upsert
 uris
 urls
-kubernetes
-Pgweb

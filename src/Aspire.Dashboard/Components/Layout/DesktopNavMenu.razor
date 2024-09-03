@@ -1,8 +1,10 @@
-﻿@using Aspire.Dashboard.Model
+﻿@using Aspire.Dashboard.Extensibility
+@using Aspire.Dashboard.Model
 @using Aspire.Dashboard.Resources
 @using Aspire.Dashboard.Utils
 @inject IStringLocalizer<Layout> Loc
 @inject IDashboardClient DashboardClient
+@inject IExtensionMonitor ExtensionMonitor
 
 <FluentAppBar PopoverShowSearch="false">
     @if (DashboardClient.IsEnabled)
@@ -13,16 +15,19 @@
             IconRest="ResourcesIcon()"
             IconActive="ResourcesIcon(active: true)"
             Text="@Loc[nameof(Layout.NavMenuResourcesTab)]" />
-        <FluentAppBarItem Href="@DashboardUrls.ConsoleLogsUrl()"
+        <FluentAppBarItem
+            Href="@DashboardUrls.ConsoleLogsUrl()"
             IconRest="ConsoleLogsIcon()"
             IconActive="ConsoleLogsIcon(active: true)"
             Text="@Loc[nameof(Layout.NavMenuConsoleLogsTab)]" />
     }
-    <FluentAppBarItem Href="@DashboardUrls.StructuredLogsUrl()"
+    <FluentAppBarItem
+        Href="@DashboardUrls.StructuredLogsUrl()"
         IconRest="StructuredLogsIcon()"
         IconActive="StructuredLogsIcon(active: true)"
         Text="@Loc[nameof(Layout.NavMenuStructuredLogsTab)]" />
-    <FluentAppBarItem Href="@DashboardUrls.TracesUrl()"
+    <FluentAppBarItem
+        Href="@DashboardUrls.TracesUrl()"
         IconRest="TracesIcon()"
         IconActive="TracesIcon(active: true)"
         Text="@Loc[nameof(Layout.NavMenuTracesTab)]" />
@@ -31,4 +36,20 @@
         IconRest="MetricsIcon()"
         IconActive="MetricsIcon(active: true)"
         Text="@Loc[nameof(Layout.NavMenuMetricsTab)]" />
+    @foreach (var (_, extension) in ExtensionMonitor.ExtensionConfigByResourceName)
+    {
+        foreach (var topLevelPage in extension.TopLevelPages)
+        {
+            // TODO navigate to content in an iframe
+            // TODO determine how to set "IconActive"
+            // TODO model icons in config
+            // TODO make available in mobile view too
+            @*Href="@topLevelPage.TargetUrl"*@
+            <FluentAppBarItem
+                Href="@($"/extension/{topLevelPage.UrlName}")"
+                IconRest="@(new Icons.Regular.Size24.PuzzlePiece())"
+                IconActive="@(new Icons.Filled.Size24.PuzzlePiece())"
+                Text="@topLevelPage.Title" />
+        }
+    }
 </FluentAppBar>

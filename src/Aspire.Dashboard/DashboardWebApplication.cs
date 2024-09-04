@@ -195,7 +195,7 @@ public sealed class DashboardWebApplication : IAsyncDisposable
 
         // Data from the server.
         builder.Services.AddScoped<IDashboardClient, DashboardClient>();
-        builder.Services.AddScoped<IExtensionMonitor, ExtensionMonitor>();
+        builder.Services.AddScoped<IExtensionRegistry, ExtensionRegistry>();
 
         // OTLP services.
         builder.Services.AddGrpc();

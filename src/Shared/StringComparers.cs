@@ -22,6 +22,7 @@ internal static class StringComparers
     public static StringComparer HtmlAttribute => StringComparer.Ordinal;
     public static StringComparer GridColumn => StringComparer.Ordinal;
     public static StringComparer OtlpAttribute => StringComparer.Ordinal;
+    public static StringComparer TopLevelPageUrlName => StringComparer.Ordinal;
 }
 
 internal static class StringComparisons
@@ -41,4 +42,5 @@ internal static class StringComparisons
     public static StringComparison HtmlAttribute => StringComparison.Ordinal;
     public static StringComparison GridColumn => StringComparison.Ordinal;
     public static StringComparison OtlpAttribute => StringComparison.Ordinal;
+    public static StringComparison TopLevelPageUrlName => StringComparison.Ordinal;
 }

@@ -3,7 +3,6 @@
 
 using System.Collections.Immutable;
 using System.Text.Json.Serialization;
-//using System.Text.Json;
 
 namespace Aspire.Dashboard.Extensibility;
 
@@ -21,21 +20,10 @@ internal sealed class TopLevelPageConfiguration
     // TODO map from this to Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size20
     [JsonPropertyName("icon")]
     public required string Icon { get; init; }
+    // TODO validate this is a relative path
     [JsonPropertyName("targetUrl")]
     public required string TargetUrl { get; init; }
+    // TODO validate this is unique
     [JsonPropertyName("urlName")]
     public required string UrlName { get; init; }
 }
-
-//internal static class ExtensionConfigurationReader
-//{
-//    private static readonly JsonSerializerOptions? s_options = new()
-//    {
-//        ReadCommentHandling = JsonCommentHandling.Skip
-//    };
-
-//    public static ValueTask<ExtensionConfiguration?> ReadExtensionConfiguration(Stream stream, CancellationToken token)
-//    {
-//        return JsonSerializer.DeserializeAsync<ExtensionConfiguration>(stream, s_options, token);
-//    }
-//}

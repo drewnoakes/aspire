@@ -1,15 +1,19 @@
-// The contents of this configuration file are read once by the dashboard, when
-// the extension is first identified as running. The data here is otherwise static.
-
 {
+  // The contents of this configuration file are read once by the dashboard, when
+  // the extension is first identified as running. The data here is otherwise static.
+  // TODO create a schema for this file format
+
   "topLevelPages": [
     {
       "title": "My Extension",
       // TODO identify icon somehow
       "icon": "",
+      // TODO validate that no two extensions have the same urlName
       "urlName": "my-extension",
       // relative paths are relative to the extension's endpoint
-      "targetUrl": "/index.html"
+      "targetUrl": "/index.html",
+      // TODO support this in the code too
+      "priority": 100
     }
   ]
 }

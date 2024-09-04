@@ -1,9 +1,15 @@
-﻿@page "/extension/{extensionName}"
+﻿@page "/extension/{*TargetUrl}"
 
-@inject NavigationManager NavigationManager
-@* @inject ExtensionRouteService ExtensionRouteService *@
+@using Aspire.Dashboard.Extensibility
 
-@if (_extensionUrl != null)
+@inject IExtensionRegistry ExtensionRegistry
+
+@if (!_isLoaded)
+{
+    <!-- TODO center this on screen -->
+    <FluentProgressRing />
+}
+else if (_extensionUrl != null)
 {
     <iframe src="@_extensionUrl" style="width:100%; height:100%;"></iframe>
 }
@@ -14,16 +20,19 @@ else
 
 @code {
     private string? _extensionUrl;
+    private bool _isLoaded;
 
     [Parameter]
-    public string? ExtensionName { get; set; }
+    public string? TargetUrl { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        var pp = ExtensionName;
-        var currentPath = NavigationManager.Uri.Replace(NavigationManager.BaseUri, "/");
+        // TODO what happens if the URL contains extra levels?
 
-        // TODO look up extension URL by extension name
-        _extensionUrl = "https://localhost:7054/index.html"; // ExtensionRouteService.GetExtensionUrl(currentPath);
+        if (TargetUrl is not null)
+        {
+            _extensionUrl = await ExtensionRegistry.GetExtensionUrlAsync(TargetUrl, CancellationToken.None);
+            _isLoaded = true;
+        }
     }
 }

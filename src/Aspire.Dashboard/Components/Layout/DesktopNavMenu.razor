@@ -4,7 +4,7 @@
 @using Aspire.Dashboard.Utils
 @inject IStringLocalizer<Layout> Loc
 @inject IDashboardClient DashboardClient
-@inject IExtensionMonitor ExtensionMonitor
+@inject IExtensionRegistry ExtensionMonitor
 
 <FluentAppBar PopoverShowSearch="false">
     @if (DashboardClient.IsEnabled)
@@ -36,20 +36,14 @@
         IconRest="MetricsIcon()"
         IconActive="MetricsIcon(active: true)"
         Text="@Loc[nameof(Layout.NavMenuMetricsTab)]" />
-    @foreach (var (_, extension) in ExtensionMonitor.ExtensionConfigByResourceName)
+    @foreach (var topLevelPage in _topLevelPages)
     {
-        foreach (var topLevelPage in extension.TopLevelPages)
-        {
-            // TODO navigate to content in an iframe
-            // TODO determine how to set "IconActive"
-            // TODO model icons in config
-            // TODO make available in mobile view too
-            @*Href="@topLevelPage.TargetUrl"*@
-            <FluentAppBarItem
-                Href="@($"/extension/{topLevelPage.UrlName}")"
-                IconRest="@(new Icons.Regular.Size24.PuzzlePiece())"
-                IconActive="@(new Icons.Filled.Size24.PuzzlePiece())"
-                Text="@topLevelPage.Title" />
-        }
+        // TODO make available in mobile view too
+        // TODO model icons in config
+        <FluentAppBarItem
+            Href="@($"/extension/{topLevelPage.UrlName}")"
+            IconRest="@(new Icons.Regular.Size24.PuzzlePiece())"
+            IconActive="@(new Icons.Filled.Size24.PuzzlePiece())"
+            Text="@topLevelPage.Title" />
     }
 </FluentAppBar>

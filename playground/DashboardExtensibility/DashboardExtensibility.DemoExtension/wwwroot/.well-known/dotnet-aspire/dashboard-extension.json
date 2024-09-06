@@ -8,11 +8,9 @@
       "title": "My Extension",
       // TODO identify icon somehow
       "icon": "",
-      // TODO validate that no two extensions have the same urlName
       "urlName": "my-extension",
       // relative paths are relative to the extension's endpoint
       "targetUrl": "/index.html",
-      // TODO support this in the code too
       "priority": 100
     }
   ]

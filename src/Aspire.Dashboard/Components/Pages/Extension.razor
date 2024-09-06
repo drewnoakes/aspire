@@ -31,7 +31,7 @@ else
 
         if (TargetUrl is not null)
         {
-            _extensionUrl = await ExtensionRegistry.GetExtensionUrlAsync(TargetUrl, CancellationToken.None);
+            _extensionUrl = await ExtensionRegistry.GetTopLevelPageUrlAsync(TargetUrl, CancellationToken.None);
             _isLoaded = true;
         }
     }

@@ -10,6 +10,14 @@ internal sealed class ExtensionConfiguration
 {
     [JsonPropertyName("topLevelPages")]
     public ImmutableArray<TopLevelPageConfiguration> TopLevelPages { get; init; } = [];
+
+    public void Validate(ref List<string>? errors)
+    {
+        foreach (var topLevelPage in TopLevelPages)
+        {
+            topLevelPage.Validate(ref errors);
+        }
+    }
 }
 
 internal sealed class TopLevelPageConfiguration
@@ -20,10 +28,33 @@ internal sealed class TopLevelPageConfiguration
     // TODO map from this to Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size20
     [JsonPropertyName("icon")]
     public required string Icon { get; init; }
-    // TODO validate this is a relative path
-    [JsonPropertyName("targetUrl")]
-    public required string TargetUrl { get; init; }
-    // TODO validate this is unique
     [JsonPropertyName("urlName")]
     public required string UrlName { get; init; }
+    [JsonPropertyName("targetUrl")]
+    public required string TargetUrl { get; init; }
+    [JsonPropertyName("priority")]
+    public int Priority { get; init; }
+
+    public void Validate(ref List<string>? errors)
+    {
+        if (string.IsNullOrWhiteSpace(Title))
+        {
+            errors ??= [];
+            errors.Add("Title is required.");
+        }
+
+        // TODO icon validation, once icon representation is defined?
+
+        if (string.IsNullOrWhiteSpace(UrlName))
+        {
+            errors ??= [];
+            errors.Add("UrlName is required.");
+        }
+
+        if (string.IsNullOrWhiteSpace(TargetUrl))
+        {
+            errors ??= [];
+            errors.Add("TargetUrl is required.");
+        }
+    }
 }

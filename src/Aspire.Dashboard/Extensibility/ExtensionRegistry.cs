@@ -10,7 +10,13 @@ namespace Aspire.Dashboard.Extensibility;
 
 internal interface IExtensionRegistry
 {
-    Task<string?> GetExtensionUrlAsync(string urlName, CancellationToken token);
+    /// <summary>
+    /// Gets the URL at which content for the top-level page matching <paramref name="urlName"/> can be accessed.
+    /// </summary>
+    /// <param name="urlName">The name used in the dashboard's URL to identify the extension page.</param>
+    /// <param name="token">Signals a loss of interest in the result.</param>
+    /// <returns>A task that contains the URL when available, otherwise <see langword="null"/>.</returns>
+    Task<string?> GetTopLevelPageUrlAsync(string urlName, CancellationToken token);
 
     /// <summary>
     /// Returns configuration data for each top-level page, in priority (display) order.
@@ -73,6 +79,8 @@ internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
 
         async Task SubscribeToResourcesAsync()
         {
+            _logger.LogDebug("Subscribing for resource data...");
+
             var (snapshot, subscription) = await dashboardClient.SubscribeResourcesAsync(token).ConfigureAwait(false);
 
             _logger.LogDebug("Received {Length} resources in initial snapshot", snapshot.Length);
@@ -82,6 +90,8 @@ internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
             {
                 await IntegrateAsync(resource).ConfigureAwait(false);
             }
+
+            _logger.LogDebug("Initial data integrated. Listening for updates.");
 
             // Signal that extensions are available.
             _extensionsAvailable.SetResult();
@@ -130,14 +140,18 @@ internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
                     else if (resource.KnownState is KnownResourceState.Exited or KnownResourceState.Finished)
                     {
                         // Clean up if the resource is no longer running.
-                        // TODO go through other collections, and remove their data
                         Remove();
                     }
                 }
 
                 async Task AddAsync()
                 {
-                    Instance instance = new(resource.Name, resource.Urls, _logger);
+                    _logger.LogDebug("Adding dashboard extension {Name}", resource.Name);
+
+                    // NOTE we use the first URL as the base URL for the extension.
+                    var extensionsContainerUri = resource.Urls.First().Url;
+
+                    Instance instance = new(resource.Name, extensionsContainerUri, _logger);
 
                     _instanceByResourceName.Add(resource.Name, instance);
 
@@ -154,9 +168,13 @@ internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
 
                         foreach (var pageConfig in extensionConfig.TopLevelPages)
                         {
-                            if (ImmutableInterlocked.TryAdd(ref _pageByUrlName, pageConfig.UrlName, new PageConfig(pageConfig, resource.Urls.First().Url.ToString())))
+                            if (ImmutableInterlocked.TryAdd(ref _pageByUrlName, pageConfig.UrlName, new PageConfig(pageConfig, extensionsContainerUri.ToString())))
                             {
                                 pagesChanged = true;
+                            }
+                            else
+                            {
+                                _logger.LogWarning("Duplicate top-level page URL name {UrlName} in extension {ResourceName}", pageConfig.UrlName, resource.Name);
                             }
                         }
 
@@ -167,12 +185,14 @@ internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
                     }
                     else
                     {
-                        Debug.Fail("Extension configuration should not have been added.");
+                        Debug.Fail("Extension configuration should have been added.");
                     }
                 }
 
                 void Remove()
                 {
+                    _logger.LogDebug("Removing dashboard extension {Name}", resource.Name);
+
                     if (_instanceByResourceName.Remove(resource.Name))
                     {
                         if (ImmutableInterlocked.TryRemove(ref _extensionConfigByResourceName, resource.Name, out var extensionConfig))
@@ -197,7 +217,8 @@ internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
 
                 void UpdatePages()
                 {
-                    _pages = _pageByUrlName.Values.Select(p => p.Configuration).ToImmutableArray();
+                    // Produce the ordered set of pages.
+                    _pages = _pageByUrlName.Values.Select(p => p.Configuration).OrderBy(c => c.Priority).ThenBy(c => c.Title).ToImmutableArray();
 
                     foreach (var subscription in _topLevelPageConfigurationSubscriptions)
                     {
@@ -215,13 +236,15 @@ internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
         _cts.Dispose();
     }
 
-    async Task<string?> IExtensionRegistry.GetExtensionUrlAsync(string urlName, CancellationToken token)
+    async Task<string?> IExtensionRegistry.GetTopLevelPageUrlAsync(string urlName, CancellationToken token)
     {
         await _extensionsAvailable.Task.ConfigureAwait(false);
 
         if (_pageByUrlName.TryGetValue(urlName, out var pageConfig))
         {
             UriBuilder builder = new(pageConfig.ExtensionBaseUrl);
+
+            // TODO handle case where target URL is either absolute or relative
 
             var targetUrl = pageConfig.Configuration.TargetUrl;
 
@@ -253,7 +276,7 @@ internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
         });
     }
 
-    private sealed class Instance(string resourceName, ImmutableArray<UrlViewModel> urls, ILogger<ExtensionRegistry> logger)
+    private sealed class Instance(string resourceName, Uri extensionsContainerUri, ILogger<ExtensionRegistry> logger)
     {
         private static readonly HttpClient s_sharedClient = new()
         {
@@ -267,9 +290,7 @@ internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
 
         public async Task<ExtensionConfiguration?> InitializeAsync(CancellationToken token)
         {
-            // TODO error handling and resilience
-
-            UriBuilder builder = new(urls.First().Url);
+            UriBuilder builder = new(extensionsContainerUri);
 
             if (!builder.Path.EndsWith('/'))
             {
@@ -282,18 +303,39 @@ internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
 
             logger.LogDebug("Fetching extension configuration from {Uri} for resource {Name}", uri, resourceName);
 
-            var configuration = await s_sharedClient.GetFromJsonAsync<ExtensionConfiguration>(uri, s_options, token).ConfigureAwait(false);
-
-            if (configuration is null)
+            try
             {
-                logger.LogDebug("No configuration provided for resource {Name}", resourceName);
-            }
-            else
-            {
-                logger.LogDebug("Received configuration for resource {Name} with {TopLevelPageCount} top-level pages", resourceName, configuration.TopLevelPages.Length);
-            }
+                var configuration = await s_sharedClient.GetFromJsonAsync<ExtensionConfiguration>(uri, s_options, token).ConfigureAwait(false);
 
-            return configuration;
+                if (configuration is null)
+                {
+                    logger.LogDebug("No configuration provided for resource {Name}", resourceName);
+                }
+                else
+                {
+                    logger.LogDebug("Received configuration for resource {Name} with {TopLevelPageCount} top-level pages", resourceName, configuration.TopLevelPages.Length);
+
+                    List<string>? errors = null;
+                    configuration.Validate(ref errors);
+
+                    if (errors is { Count: not 0 })
+                    {
+                        logger.LogWarning("Error(s) in configuration for resource {Name}:", resourceName);
+
+                        foreach (var error in errors)
+                        {
+                            logger.LogWarning("- {Error}", error);
+                        }
+                    }
+                }
+
+                return configuration;
+            }
+            catch (Exception ex) when (ex is not OperationCanceledException)
+            {
+                logger.LogError(ex, "Error fetching extension configuration for resource {Name}", resourceName);
+                return null;
+            }
         }
     }
 

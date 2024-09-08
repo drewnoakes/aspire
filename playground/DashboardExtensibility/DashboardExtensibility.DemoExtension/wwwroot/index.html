@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Dashboard Extensibility Demo</title>
+    <link rel="stylesheet" href="styles.css">
     <script>
         function onload() {
             //alert('Hello world!');
@@ -11,6 +12,22 @@
     </script>
 </head>
 <body onload="onload()">
-    <h1>Dashboard Extensibility Demo</h1>
+    <div class="container">
+        <h1>My Extensibility Content</h1>
+        <div class="layout">
+            <div class="sidebar">
+                <div class="placeholder-rectangle nav-item"></div>
+                <div class="placeholder-rectangle nav-item"></div>
+                <div class="placeholder-rectangle nav-item"></div>
+            </div>
+            <div class="content-area">
+                <div class="placeholder-posts">
+                    <div class="placeholder-rectangle post large"></div>
+                    <div class="placeholder-rectangle post medium"></div>
+                    <div class="placeholder-rectangle post small"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

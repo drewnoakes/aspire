@@ -1,0 +1,97 @@
+/*font-family: "Segoe UI Variable", "Segoe UI", sans-serif;*/
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI Variable", "Segoe UI", sans-serif;
+    background-color: #f4f4f4;
+/*    height: 100vh;*/
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.container {
+    width: 100%;
+    padding: 20px;
+}
+
+h1 {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: left;
+    padding: 10px 0;
+/*    border-bottom: 2px solid #ccc;*/
+}
+
+.layout {
+    display: flex;
+    width: 100%;
+    height: auto;
+    gap: 20px;
+}
+
+.sidebar {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.nav-item {
+    height: 40px;
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    animation: pulse 1.5s infinite;
+}
+
+.content-area {
+    flex-grow: 1;
+}
+
+.placeholder-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.placeholder-rectangle {
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    animation: pulse 1.5s infinite;
+}
+
+.post.large {
+    width: 100%;
+    height: 200px;
+}
+
+.post.medium {
+    width: 100%;
+    height: 150px;
+}
+
+.post.small {
+    width: 100%;
+    height: 100px;
+}
+
+@keyframes pulse {
+    0% {
+        background-color: #e0e0e0;
+    }
+
+    50% {
+        background-color: #d4d4d4;
+    }
+
+    100% {
+        background-color: #e0e0e0;
+    }
+}

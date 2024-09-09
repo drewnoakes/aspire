@@ -16,6 +16,9 @@ public partial class DesktopNavMenu : ComponentBase, IDisposable
     [Inject]
     public required NavigationManager NavigationManager { get; init; }
 
+    [Inject]
+    public required IExtensionRegistry ExtensionRegistry { get; init; }
+
     internal static Icon ResourcesIcon(bool active = false) => active
         ? new Icons.Filled.Size24.AppFolder()
         : new Icons.Regular.Size24.AppFolder();
@@ -38,7 +41,7 @@ public partial class DesktopNavMenu : ComponentBase, IDisposable
 
     protected override void OnInitialized()
     {
-        _topLevelPageSubscription = ExtensionMonitor.SubscribeToTopLevelPageConfiguration(OnTopLevelPagesChanged);
+        _topLevelPageSubscription = ExtensionRegistry.SubscribeToTopLevelPageConfiguration(OnTopLevelPagesChanged);
 
         void OnTopLevelPagesChanged(ImmutableArray<TopLevelPageConfiguration> pages)
         {

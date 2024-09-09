@@ -8,7 +8,7 @@ using System.Text.Json;
 
 namespace Aspire.Dashboard.Extensibility;
 
-internal interface IExtensionRegistry
+public interface IExtensionRegistry
 {
     /// <summary>
     /// Gets the URL at which content for the top-level page matching <paramref name="urlName"/> can be accessed.

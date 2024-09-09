@@ -4,7 +4,6 @@
 @using Aspire.Dashboard.Utils
 @inject IStringLocalizer<Layout> Loc
 @inject IDashboardClient DashboardClient
-@inject IExtensionRegistry ExtensionMonitor
 
 <FluentAppBar PopoverShowSearch="false">
     @if (DashboardClient.IsEnabled)
@@ -38,7 +37,6 @@
         Text="@Loc[nameof(Layout.NavMenuMetricsTab)]" />
     @foreach (var topLevelPage in _topLevelPages)
     {
-        // TODO make available in mobile view too
         <FluentAppBarItem
             Href="@($"/extension/{topLevelPage.UrlName}")"
             IconRest="@IconCache.GetIcon(topLevelPage.IconName, IconSize.Size24)"

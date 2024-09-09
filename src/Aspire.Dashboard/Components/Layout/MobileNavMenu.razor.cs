@@ -1,8 +1,10 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 using Aspire.Dashboard.Components.CustomIcons;
+using Aspire.Dashboard.Extensibility;
 using Aspire.Dashboard.Model;
 using Aspire.Dashboard.Utils;
 using Microsoft.AspNetCore.Components;
@@ -14,6 +16,9 @@ namespace Aspire.Dashboard.Components.Layout;
 
 public partial class MobileNavMenu : ComponentBase
 {
+    private ImmutableArray<TopLevelPageConfiguration> _topLevelPages = [];
+    private IDisposable? _topLevelPageSubscription;
+
     [Inject]
     public required NavigationManager NavigationManager { get; init; }
 
@@ -24,7 +29,32 @@ public partial class MobileNavMenu : ComponentBase
     public required IStringLocalizer<Resources.Layout> Loc { get; init; }
 
     [Inject]
+    public required IExtensionRegistry ExtensionRegistry { get; init; }
+
+    [Inject]
     public required IJSRuntime JS { get; init; }
+
+    protected override void OnInitialized()
+    {
+        _topLevelPageSubscription = ExtensionRegistry.SubscribeToTopLevelPageConfiguration(OnTopLevelPagesChanged);
+
+        void OnTopLevelPagesChanged(ImmutableArray<TopLevelPageConfiguration> pages)
+        {
+            if (_topLevelPages.IsEmpty && pages.IsEmpty)
+            {
+                return;
+            }
+
+            _topLevelPages = pages;
+
+            _ = InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public void Dispose()
+    {
+        _topLevelPageSubscription?.Dispose();
+    }
 
     private Task NavigateToAsync(string url)
     {
@@ -92,6 +122,15 @@ public partial class MobileNavMenu : ComponentBase
             LaunchSettingsAsync,
             new Icons.Regular.Size24.Settings()
         );
+
+        foreach (var topLevelPage in _topLevelPages)
+        {
+            yield return new MobileNavMenuEntry(
+                topLevelPage.Title,
+                () => NavigateToAsync($"/extension/{topLevelPage.UrlName}"),
+                IconCache.GetIcon(topLevelPage.IconName, IconSize.Size24)
+            );
+        }
     }
 
     private static Regex GetNonIndexPageRegex(string pageRelativeBasePath)

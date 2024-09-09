@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace Aspire.Dashboard.Extensibility;
 
-internal sealed class ExtensionConfiguration
+public sealed class ExtensionConfiguration
 {
     [JsonPropertyName("topLevelPages")]
     public ImmutableArray<TopLevelPageConfiguration> TopLevelPages { get; init; } = [];
@@ -20,7 +20,7 @@ internal sealed class ExtensionConfiguration
     }
 }
 
-internal sealed class TopLevelPageConfiguration
+public sealed class TopLevelPageConfiguration
 {
     [JsonPropertyName("title")]
     public required string Title { get; init; }

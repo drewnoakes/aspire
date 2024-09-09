@@ -25,8 +25,7 @@ public sealed class ExtensionConfigurationTests
               "topLevelPages": [
                 {
                   "title": "My Extension",
-                  // TODO identify icon somehow
-                  "icon": "",
+                  "icon": "PuzzlePiece",
                   // relative paths are relative to the extension's endpoint
                   "targetUrl": "/index.html",
                   "urlName": "my-extension",
@@ -44,7 +43,7 @@ public sealed class ExtensionConfigurationTests
         var topLevelPage = Assert.Single(configuration.TopLevelPages);
 
         Assert.Equal("My Extension", topLevelPage.Title);
-        Assert.Equal("", topLevelPage.Icon);
+        Assert.Equal("PuzzlePiece", topLevelPage.IconName);
         Assert.Equal("/index.html", topLevelPage.TargetUrl);
         Assert.Equal("my-extension", topLevelPage.UrlName);
         Assert.Equal(100, topLevelPage.Priority);
@@ -56,7 +55,7 @@ public sealed class ExtensionConfigurationTests
         TopLevelPageConfiguration config = new()
         {
             Title = "My Extension",
-            Icon = "",
+            IconName = "PuzzlePiece",
             TargetUrl = "/index.html",
             UrlName = "my-extension",
             Priority = 100
@@ -73,7 +72,7 @@ public sealed class ExtensionConfigurationTests
         TopLevelPageConfiguration config = new()
         {
             Title = "", // Title is required
-            Icon = "",
+            IconName = "PuzzlePiece",
             TargetUrl = "/index.html",
             UrlName = "my-extension",
             Priority = 100
@@ -89,12 +88,33 @@ public sealed class ExtensionConfigurationTests
     }
 
     [Fact]
+    public void TopLevelPageConfiguration_Validation_MissingIconName()
+    {
+        TopLevelPageConfiguration config = new()
+        {
+            Title = "My Extension",
+            IconName = "", // IconName is required
+            TargetUrl = "/index.html",
+            UrlName = "my-extension",
+            Priority = 100
+        };
+
+        List<string>? errors = null;
+        config.Validate(ref errors);
+
+        Assert.NotNull(errors);
+        Assert.Collection(
+            errors,
+            error => Assert.Equal("IconName is required.", error));
+    }
+
+    [Fact]
     public void TopLevelPageConfiguration_Validation_MissingTargetUrl()
     {
         TopLevelPageConfiguration config = new()
         {
             Title = "My Extension",
-            Icon = "",
+            IconName = "PuzzlePiece",
             TargetUrl = "", // TargetUrl is required
             UrlName = "my-extension",
             Priority = 100
@@ -115,7 +135,7 @@ public sealed class ExtensionConfigurationTests
         TopLevelPageConfiguration config = new()
         {
             Title = "My Extension",
-            Icon = "",
+            IconName = "PuzzlePiece",
             TargetUrl = "/index.html",
             UrlName = "", // UrlName is required
             Priority = 100

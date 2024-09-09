@@ -6,12 +6,23 @@
   "topLevelPages": [
     {
       "title": "My Extension",
-      // TODO identify icon somehow
-      "icon": "",
+      // Optional icon name. This name should be a valid FluentUI icon name.
+      // https://aka.ms/fluentui-system-icons
+      "icon": "PuzzlePiece",
       "urlName": "my-extension",
       // relative paths are relative to the extension's endpoint
       "targetUrl": "/index.html",
       "priority": 100
+    },
+    {
+      "title": "My Extension 2",
+      // Optional icon name. This name should be a valid FluentUI icon name.
+      // https://aka.ms/fluentui-system-icons
+      "icon": "AppsList",
+      "urlName": "my-extension-2",
+      // relative paths are relative to the extension's endpoint
+      "targetUrl": "/index.html",
+      "priority": 200
     }
   ]
 }

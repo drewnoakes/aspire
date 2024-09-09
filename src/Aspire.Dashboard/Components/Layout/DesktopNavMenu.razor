@@ -39,11 +39,10 @@
     @foreach (var topLevelPage in _topLevelPages)
     {
         // TODO make available in mobile view too
-        // TODO model icons in config
         <FluentAppBarItem
             Href="@($"/extension/{topLevelPage.UrlName}")"
-            IconRest="@(new Icons.Regular.Size24.PuzzlePiece())"
-            IconActive="@(new Icons.Filled.Size24.PuzzlePiece())"
+            IconRest="@IconCache.GetIcon(topLevelPage.IconName, IconSize.Size24)"
+            IconActive="@IconCache.GetIcon(topLevelPage.IconName, IconSize.Size24, IconVariant.Filled)"
             Text="@topLevelPage.Title" />
     }
 </FluentAppBar>

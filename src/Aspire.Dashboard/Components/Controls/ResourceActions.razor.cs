@@ -56,7 +56,7 @@ public partial class ResourceActions : ComponentBase
 
             foreach (var command in menuCommands)
             {
-                var icon = (!string.IsNullOrEmpty(command.IconName) && CommandViewModel.ResolveIconName(command.IconName) is { } i) ? i : null;
+                var icon = !string.IsNullOrEmpty(command.IconName) ? IconCache.GetIcon(command.IconName, IconSize.Size20) : null;
 
                 _menuItems.Add(new MenuButtonItem
                 {

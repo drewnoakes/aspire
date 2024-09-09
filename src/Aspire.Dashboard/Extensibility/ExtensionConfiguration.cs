@@ -24,10 +24,8 @@ internal sealed class TopLevelPageConfiguration
 {
     [JsonPropertyName("title")]
     public required string Title { get; init; }
-    // The name of an icon
-    // TODO map from this to Microsoft.FluentUI.AspNetCore.Components.Icons.Filled.Size20
     [JsonPropertyName("icon")]
-    public required string Icon { get; init; }
+    public string IconName { get; init; } = "PuzzlePiece";
     [JsonPropertyName("urlName")]
     public required string UrlName { get; init; }
     [JsonPropertyName("targetUrl")]
@@ -43,7 +41,11 @@ internal sealed class TopLevelPageConfiguration
             errors.Add("Title is required.");
         }
 
-        // TODO icon validation, once icon representation is defined?
+        if (string.IsNullOrWhiteSpace(IconName))
+        {
+            errors ??= [];
+            errors.Add("IconName is required.");
+        }
 
         if (string.IsNullOrWhiteSpace(UrlName))
         {

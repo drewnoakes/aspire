@@ -6,6 +6,9 @@ using System.Text.Json.Serialization;
 
 namespace Aspire.Dashboard.Extensibility;
 
+/// <summary>
+/// Immutable snapshot of configuration data for all dashboard extensions.
+/// </summary>
 public sealed class ExtensionConfiguration
 {
     [JsonPropertyName("topLevelPages")]
@@ -20,16 +23,28 @@ public sealed class ExtensionConfiguration
     }
 }
 
+/// <summary>
+/// Immutable snapshot of configuration data for a top-level page
+/// that's proffered by a dashboard extension.
+/// </summary>
+/// <remarks>
+/// Extensions do not have to provide top-level pages.
+/// Extensions may provide multiple top-level pages.
+/// </remarks>
 public sealed class TopLevelPageConfiguration
 {
     [JsonPropertyName("title")]
     public required string Title { get; init; }
-    [JsonPropertyName("icon")]
-    public string IconName { get; init; } = "PuzzlePiece";
+
     [JsonPropertyName("urlName")]
     public required string UrlSlug { get; init; }
+
     [JsonPropertyName("targetUrl")]
     public required string TargetUrl { get; init; }
+
+    [JsonPropertyName("icon")]
+    public string IconName { get; init; } = "PuzzlePiece";
+
     [JsonPropertyName("priority")]
     public int Priority { get; init; }
 

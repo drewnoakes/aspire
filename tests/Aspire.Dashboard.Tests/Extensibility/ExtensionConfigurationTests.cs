@@ -45,7 +45,7 @@ public sealed class ExtensionConfigurationTests
         Assert.Equal("My Extension", topLevelPage.Title);
         Assert.Equal("PuzzlePiece", topLevelPage.IconName);
         Assert.Equal("/index.html", topLevelPage.TargetUrl);
-        Assert.Equal("my-extension", topLevelPage.UrlName);
+        Assert.Equal("my-extension", topLevelPage.UrlSlug);
         Assert.Equal(100, topLevelPage.Priority);
     }
 
@@ -57,7 +57,7 @@ public sealed class ExtensionConfigurationTests
             Title = "My Extension",
             IconName = "PuzzlePiece",
             TargetUrl = "/index.html",
-            UrlName = "my-extension",
+            UrlSlug = "my-extension",
             Priority = 100
         };
 
@@ -74,7 +74,7 @@ public sealed class ExtensionConfigurationTests
             Title = "", // Title is required
             IconName = "PuzzlePiece",
             TargetUrl = "/index.html",
-            UrlName = "my-extension",
+            UrlSlug = "my-extension",
             Priority = 100
         };
 
@@ -95,7 +95,7 @@ public sealed class ExtensionConfigurationTests
             Title = "My Extension",
             IconName = "", // IconName is required
             TargetUrl = "/index.html",
-            UrlName = "my-extension",
+            UrlSlug = "my-extension",
             Priority = 100
         };
 
@@ -116,7 +116,7 @@ public sealed class ExtensionConfigurationTests
             Title = "My Extension",
             IconName = "PuzzlePiece",
             TargetUrl = "", // TargetUrl is required
-            UrlName = "my-extension",
+            UrlSlug = "my-extension",
             Priority = 100
         };
 
@@ -137,7 +137,7 @@ public sealed class ExtensionConfigurationTests
             Title = "My Extension",
             IconName = "PuzzlePiece",
             TargetUrl = "/index.html",
-            UrlName = "", // UrlName is required
+            UrlSlug = "", // UrlSlug is required
             Priority = 100
         };
 
@@ -147,6 +147,6 @@ public sealed class ExtensionConfigurationTests
         Assert.NotNull(errors);
         Assert.Collection(
             errors,
-            error => Assert.Equal("UrlName is required.", error));
+            error => Assert.Equal("UrlSlug is required.", error));
     }
 }

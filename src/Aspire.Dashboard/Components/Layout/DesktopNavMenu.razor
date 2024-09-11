@@ -38,7 +38,7 @@
     @foreach (var topLevelPage in _topLevelPages)
     {
         <FluentAppBarItem
-            Href="@($"/extension/{topLevelPage.UrlName}")"
+            Href="@($"/extension/{topLevelPage.UrlSlug}")"
             IconRest="@IconCache.GetIcon(topLevelPage.IconName, IconSize.Size24)"
             IconActive="@IconCache.GetIcon(topLevelPage.IconName, IconSize.Size24, IconVariant.Filled)"
             Text="@topLevelPage.Title" />

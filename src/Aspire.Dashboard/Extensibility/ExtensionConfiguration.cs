@@ -27,7 +27,7 @@ public sealed class TopLevelPageConfiguration
     [JsonPropertyName("icon")]
     public string IconName { get; init; } = "PuzzlePiece";
     [JsonPropertyName("urlName")]
-    public required string UrlName { get; init; }
+    public required string UrlSlug { get; init; }
     [JsonPropertyName("targetUrl")]
     public required string TargetUrl { get; init; }
     [JsonPropertyName("priority")]
@@ -47,10 +47,10 @@ public sealed class TopLevelPageConfiguration
             errors.Add("IconName is required.");
         }
 
-        if (string.IsNullOrWhiteSpace(UrlName))
+        if (string.IsNullOrWhiteSpace(UrlSlug))
         {
             errors ??= [];
-            errors.Add("UrlName is required.");
+            errors.Add("UrlSlug is required.");
         }
 
         if (string.IsNullOrWhiteSpace(TargetUrl))

@@ -127,7 +127,7 @@ public partial class MobileNavMenu : ComponentBase
         {
             yield return new MobileNavMenuEntry(
                 topLevelPage.Title,
-                () => NavigateToAsync($"/extension/{topLevelPage.UrlName}"),
+                () => NavigateToAsync($"/extension/{topLevelPage.UrlSlug}"),
                 IconCache.GetIcon(topLevelPage.IconName, IconSize.Size24)
             );
         }

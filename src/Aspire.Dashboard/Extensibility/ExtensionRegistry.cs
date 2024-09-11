@@ -11,12 +11,19 @@ namespace Aspire.Dashboard.Extensibility;
 public interface IExtensionRegistry
 {
     /// <summary>
-    /// Gets the URL at which content for the top-level page matching <paramref name="urlName"/> can be accessed.
+    /// Gets data for a top-level page provided by an extension. This data is looked up via the
+    /// unique URL "slug" included that identifies the extension.
     /// </summary>
-    /// <param name="urlName">The name used in the dashboard's URL to identify the extension page.</param>
-    /// <param name="token">Signals a loss of interest in the result.</param>
-    /// <returns>A task that contains the URL when available, otherwise <see langword="null"/>.</returns>
-    Task<string?> GetTopLevelPageUrlAsync(string urlName, CancellationToken token);
+    /// <remarks>
+    /// For example, navigating to https://localhost:1234/extension/my-extension means the user
+    /// is requesting the top-level page with slug <c>my-extension</c>.
+    /// </remarks>
+    /// <param name="urlSlug">
+    /// A string that's included in a URL that uniquely identifies the top-level page, and implies a specific extension.
+    /// </param>
+    /// <param name="cancellationToken">A token that signals a loss of interest in the operation.</param>
+    /// <returns></returns>
+    Task<TopLevelPageData?> GetTopLevelPageConfigurationAsync(string urlSlug, CancellationToken cancellationToken);
 
     /// <summary>
     /// Returns configuration data for each top-level page, in priority (display) order.
@@ -29,6 +36,8 @@ public interface IExtensionRegistry
     IDisposable SubscribeToTopLevelPageConfiguration(Action<ImmutableArray<TopLevelPageConfiguration>> callback);
 }
 
+public record class TopLevelPageData(TopLevelPageConfiguration Configuration, string ExtensionBaseUrl);
+
 /// <summary>
 /// Tracks dashboard extensions provided via the resource service, and gathers their configuration for use within the dashboard.
 /// </summary>
@@ -38,10 +47,6 @@ public interface IExtensionRegistry
 /// </remarks>
 internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
 {
-    // TODO review logging in this class
-    // TODO unit tests!
-    private readonly record struct PageConfig(TopLevelPageConfiguration Configuration, string ExtensionBaseUrl);
-
     private readonly Dictionary<string, Instance> _instanceByResourceName = new(StringComparers.ResourceName);
     private readonly TaskCompletionSource _extensionsAvailable = new();
     private readonly CancellationTokenSource _cts = new();
@@ -50,7 +55,7 @@ internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
     private readonly ILogger<ExtensionRegistry> _logger;
 
     private ImmutableDictionary<string, ExtensionConfiguration> _extensionConfigByResourceName = ImmutableDictionary<string, ExtensionConfiguration>.Empty.WithComparers(StringComparers.ResourceName);
-    private ImmutableDictionary<string, PageConfig> _pageByUrlName = ImmutableDictionary<string, PageConfig>.Empty.WithComparers(StringComparers.TopLevelPageUrlName);
+    private ImmutableDictionary<string, TopLevelPageData> _pageByUrlSlug = ImmutableDictionary<string, TopLevelPageData>.Empty.WithComparers(StringComparers.TopLevelPageUrlSlug);
     private ImmutableArray<TopLevelPageConfiguration> _pages;
     private ImmutableHashSet<Action<ImmutableArray<TopLevelPageConfiguration>>> _topLevelPageConfigurationSubscriptions = [];
 
@@ -168,13 +173,13 @@ internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
 
                         foreach (var pageConfig in extensionConfig.TopLevelPages)
                         {
-                            if (ImmutableInterlocked.TryAdd(ref _pageByUrlName, pageConfig.UrlName, new PageConfig(pageConfig, extensionsContainerUri.ToString())))
+                            if (ImmutableInterlocked.TryAdd(ref _pageByUrlSlug, pageConfig.UrlSlug, new TopLevelPageData(pageConfig, extensionsContainerUri.ToString())))
                             {
                                 pagesChanged = true;
                             }
                             else
                             {
-                                _logger.LogWarning("Duplicate top-level page URL name {UrlName} in extension {ResourceName}", pageConfig.UrlName, resource.Name);
+                                _logger.LogWarning("Duplicate top-level page URL slug {UrlSlug} in extension {ResourceName}", pageConfig.UrlSlug, resource.Name);
                             }
                         }
 
@@ -201,7 +206,7 @@ internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
 
                             foreach (var pageConfig in extensionConfig.TopLevelPages)
                             {
-                                if (ImmutableInterlocked.TryRemove(ref _pageByUrlName, pageConfig.UrlName, out _))
+                                if (ImmutableInterlocked.TryRemove(ref _pageByUrlSlug, pageConfig.UrlSlug, out _))
                                 {
                                     pagesChanged = true;
                                 }
@@ -218,7 +223,7 @@ internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
                 void UpdatePages()
                 {
                     // Produce the ordered set of pages.
-                    _pages = _pageByUrlName.Values.Select(p => p.Configuration).OrderBy(c => c.Priority).ThenBy(c => c.Title).ToImmutableArray();
+                    _pages = _pageByUrlSlug.Values.Select(p => p.Configuration).OrderBy(c => c.Priority).ThenBy(c => c.Title).ToImmutableArray();
 
                     foreach (var subscription in _topLevelPageConfigurationSubscriptions)
                     {
@@ -236,24 +241,13 @@ internal sealed class ExtensionRegistry : IExtensionRegistry, IAsyncDisposable
         _cts.Dispose();
     }
 
-    async Task<string?> IExtensionRegistry.GetTopLevelPageUrlAsync(string urlName, CancellationToken token)
+    async Task<TopLevelPageData?> IExtensionRegistry.GetTopLevelPageConfigurationAsync(string urlSlug, CancellationToken cancellationToken)
     {
         await _extensionsAvailable.Task.ConfigureAwait(false);
 
-        if (_pageByUrlName.TryGetValue(urlName, out var pageConfig))
-        {
-            UriBuilder builder = new(pageConfig.ExtensionBaseUrl);
+        _pageByUrlSlug.TryGetValue(urlSlug, out var pageConfig);
 
-            // TODO handle case where target URL is either absolute or relative
-
-            var targetUrl = pageConfig.Configuration.TargetUrl;
-
-            builder.Path += targetUrl.StartsWith('/') ? targetUrl[1..] : targetUrl;
-
-            return builder.ToString();
-        }
-
-        return null;
+        return pageConfig;
     }
 
     IDisposable IExtensionRegistry.SubscribeToTopLevelPageConfiguration(Action<ImmutableArray<TopLevelPageConfiguration>> callback)

@@ -1,4 +1,4 @@
-﻿@page "/extension/{*TargetUrl}"
+﻿@page "/extension/{*UrlSlug}"
 
 @implements IDisposable
 
@@ -9,6 +9,8 @@
 @inject IExtensionRegistry ExtensionRegistry
 @inject IJSRuntime JS
 @inject ThemeManager ThemeManager
+
+<PageTitle>@_pageTitle</PageTitle>
 
 @if (!_isLoaded)
 {
@@ -26,20 +28,50 @@ else
 
 @code {
     private string? _extensionUrl;
+    private string? _pageTitle;
     private bool _isLoaded;
     private IDisposable? _themeChangedSubscription;
+    private string? _lastUrlSlug;
 
     [Parameter]
-    public string? TargetUrl { get; set; }
+    public string? UrlSlug { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        // TODO what happens if the URL contains extra levels?
+        await OnUrlSlugChangedAsync();
+    }
 
-        if (TargetUrl is not null)
+    private async Task OnUrlSlugChangedAsync()
+    {
+        if (UrlSlug is not null && !StringComparers.TopLevelPageUrlSlug.Equals(UrlSlug, _lastUrlSlug))
         {
-            _extensionUrl = await ExtensionRegistry.GetTopLevelPageUrlAsync(TargetUrl, CancellationToken.None);
-            _isLoaded = true;
+            var page = await ExtensionRegistry.GetTopLevelPageConfigurationAsync(UrlSlug, CancellationToken.None);
+
+            if (page is null)
+            {
+                // TODO log this
+                Debug.Fail($"Extension page not found: {UrlSlug}");
+            }
+            else
+            {
+                _lastUrlSlug = UrlSlug;
+                _pageTitle = page.Configuration.Title;
+                _extensionUrl = GetExtensionBaseUrl(page);
+                _isLoaded = true;
+            }
+        }
+
+        static string GetExtensionBaseUrl(TopLevelPageData page)
+        {
+            UriBuilder builder = new(page.ExtensionBaseUrl);
+
+            // TODO handle case where target URL is either absolute or relative
+
+            var targetUrl = page.Configuration.TargetUrl;
+
+            builder.Path += targetUrl.StartsWith('/') ? targetUrl[1..] : targetUrl;
+
+            return builder.ToString();
         }
     }
 

@@ -1,8 +1,14 @@
 ﻿@page "/extension/{*TargetUrl}"
 
+@implements IDisposable
+
 @using Aspire.Dashboard.Extensibility
+@using Aspire.Dashboard.Model
+@using System.Diagnostics
 
 @inject IExtensionRegistry ExtensionRegistry
+@inject IJSRuntime JS
+@inject ThemeManager ThemeManager
 
 @if (!_isLoaded)
 {
@@ -11,7 +17,7 @@
 }
 else if (_extensionUrl != null)
 {
-    <iframe src="@_extensionUrl" style="width:100%; height:100%;"></iframe>
+    <iframe id="extension-frame" src="@_extensionUrl" style="width:100%; height:100%;"></iframe>
 }
 else
 {
@@ -21,6 +27,7 @@ else
 @code {
     private string? _extensionUrl;
     private bool _isLoaded;
+    private IDisposable? _themeChangedSubscription;
 
     [Parameter]
     public string? TargetUrl { get; set; }
@@ -34,5 +41,36 @@ else
             _extensionUrl = await ExtensionRegistry.GetTopLevelPageUrlAsync(TargetUrl, CancellationToken.None);
             _isLoaded = true;
         }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await ThemeManager.EnsureEffectiveThemeAsync();
+
+            var jsModule = await JS.InvokeAsync<IJSObjectReference>("import", "/Components/Pages/Extension.razor.js");
+
+            var themeName = ThemeManager.EffectiveTheme.ToLowerInvariant();
+
+            _themeChangedSubscription = ThemeManager.OnThemeChanged(async () =>
+            {
+                var newTheme = ThemeManager.EffectiveTheme.ToLowerInvariant();
+
+                if (!string.Equals(themeName, newTheme, StringComparison.Ordinal))
+                {
+                    themeName = newTheme;
+
+                    await jsModule.InvokeVoidAsync("setTheme", themeName);
+                }
+            });
+
+            await jsModule.InvokeVoidAsync("onExtensionLoad", themeName);
+        }
+    }
+
+    public void Dispose()
+    {
+        _themeChangedSubscription?.Dispose();
     }
 }

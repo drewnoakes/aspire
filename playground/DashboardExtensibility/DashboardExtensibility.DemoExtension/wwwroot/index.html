@@ -7,7 +7,15 @@
     <link rel="stylesheet" href="styles.css">
     <script>
         function onload() {
-            //alert('Hello world!');
+            window.addEventListener('message', (event) => {
+                if (event.data.type === 'theme') {
+                    const root = document.documentElement;
+                    const themeName = event.data.value;
+                    root.classList.remove("theme-light", "theme-dark");
+                    root.classList.add(`theme-${themeName}`);
+                    window.parent.postMessage({ type: 'themeApplied' }, '*');
+                }
+            });
         }
     </script>
 </head>

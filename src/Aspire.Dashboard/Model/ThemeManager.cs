@@ -18,10 +18,7 @@ public sealed class BrowserEffectiveThemeResolver(IJSRuntime jsRuntime) : IEffec
 
     public async Task<string> GetEffectiveThemeAsync(CancellationToken cancellationToken)
     {
-        if (_jsModule == null)
-        {
-            _jsModule = await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "/js/app-theme.js").ConfigureAwait(false);
-        }
+        _jsModule ??= await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "/js/app-theme.js").ConfigureAwait(false);
 
         return await _jsModule.InvokeAsync<string>("getCurrentTheme", cancellationToken).ConfigureAwait(false);
     }
@@ -38,8 +35,8 @@ public sealed class ThemeManager
     public const string ThemeSettingDark = "Dark";
     public const string ThemeSettingLight = "Light";
 
-    private readonly object _lock = new object();
-    private readonly List<ModelSubscription> _subscriptions = new List<ModelSubscription>();
+    private readonly object _lock = new();
+    private readonly List<ModelSubscription> _subscriptions = [];
     private readonly IEffectiveThemeResolver _effectiveThemeResolver;
     private string? _effectiveTheme;
 
@@ -59,24 +56,13 @@ public sealed class ThemeManager
     /// </summary>
     public string EffectiveTheme
     {
-        get
-        {
-            if (_effectiveTheme == null)
-            {
-                throw new InvalidOperationException("EffectiveTheme hasn't been set.");
-            }
-
-            return _effectiveTheme;
-        }
+        get => _effectiveTheme ?? throw new InvalidOperationException("EffectiveTheme hasn't been set.");
         set => _effectiveTheme = value;
     }
 
     public async Task EnsureEffectiveThemeAsync()
     {
-        if (_effectiveTheme == null)
-        {
-            _effectiveTheme = await _effectiveThemeResolver.GetEffectiveThemeAsync(CancellationToken.None).ConfigureAwait(false);
-        }
+        _effectiveTheme ??= await _effectiveThemeResolver.GetEffectiveThemeAsync(CancellationToken.None).ConfigureAwait(false);
     }
 
     public IDisposable OnThemeChanged(Func<Task> callback)

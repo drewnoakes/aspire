@@ -14,7 +14,7 @@
 
 <PageTitle>@_pageTitle</PageTitle>
 
-@if (_isNotFound || UrlSlug is null)
+@if (_isNotFound || string.IsNullOrWhiteSpace(UrlSlug))
 {
     <div class="extension-not-found">
         <h3>@Loc[nameof(Aspire.Dashboard.Resources.Routes.NotFoundDetails)]</h3>

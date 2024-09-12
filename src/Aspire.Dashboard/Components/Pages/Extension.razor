@@ -10,6 +10,7 @@
 @inject IJSRuntime JS
 @inject ThemeManager ThemeManager
 @inject ILogger<ChartContainer> Logger
+@inject IStringLocalizer<Aspire.Dashboard.Resources.Routes> Loc
 
 <PageTitle>@_pageTitle</PageTitle>
 
@@ -24,7 +25,7 @@ else if (_extensionUrl != null)
 }
 else
 {
-    <h3>Page not found</h3>
+    <h3>@Loc[nameof(Aspire.Dashboard.Resources.Routes.NotFoundDetails)]</h3>
 }
 
 @code {
@@ -46,6 +47,8 @@ else
             if (page is null)
             {
                 Logger.LogWarning($"Extension page not found: {UrlSlug}");
+                _extensionUrl = null;
+                _pageTitle = null;
             }
             else
             {

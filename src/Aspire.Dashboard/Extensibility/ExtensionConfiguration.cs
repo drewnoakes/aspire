@@ -53,25 +53,25 @@ public sealed class TopLevelPageConfiguration
         if (string.IsNullOrWhiteSpace(Title))
         {
             errors ??= [];
-            errors.Add("Title is required.");
+            errors.Add($"{nameof(Title)} is required.");
         }
 
         if (string.IsNullOrWhiteSpace(IconName))
         {
             errors ??= [];
-            errors.Add("IconName is required.");
+            errors.Add($"{nameof(IconName)} is required.");
         }
 
         if (string.IsNullOrWhiteSpace(UrlSlug))
         {
             errors ??= [];
-            errors.Add("UrlSlug is required.");
+            errors.Add($"{nameof(UrlSlug)} is required.");
         }
 
         if (string.IsNullOrWhiteSpace(TargetUrl))
         {
             errors ??= [];
-            errors.Add("TargetUrl is required.");
+            errors.Add($"{nameof(TargetUrl)} is required.");
         }
     }
 }

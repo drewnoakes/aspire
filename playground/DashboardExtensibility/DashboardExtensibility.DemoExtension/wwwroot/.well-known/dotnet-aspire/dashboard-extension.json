@@ -1,7 +1,6 @@
 {
   // The contents of this configuration file are read once by the dashboard, when
   // the extension is first identified as running. The data here is otherwise static.
-  // TODO create a schema for this file format
 
   "topLevelPages": [
     {

@@ -22,11 +22,13 @@
 }
 else
 {
-    <div id="extension-load-spinner">
-        <FluentProgressRing />
-    </div>
+    <div @key="@UrlSlug" style="width:100%; height:100%;">
+        <div id="extension-load-spinner">
+            <FluentProgressRing />
+        </div>
 
-    <iframe @key="@UrlSlug" id="extension-frame" src="@_extensionUrl" style="display: none; width:100%; height:100%;"></iframe>
+        <iframe id="extension-frame" src="@_extensionUrl" style="display: none; width:100%; height:100%;"></iframe>
+    </div>
 }
 
 @code {

@@ -1,6 +1,15 @@
 export function onExtensionLoad(themeName) {
     const iframe = document.getElementById('extension-frame');
 
+    if (iframe == null) {
+        // Page isn't loaded yet. Try again when it is.
+        document.addEventListener('load', () => {
+            console.log('postponing setting of theme, as page isn\'t loaded yet');
+            onExtensionLoad(themeName);
+        });
+        return;
+    }
+
     // Hide the UI until the theme is applied.
     iframe.style.display = 'none';
 

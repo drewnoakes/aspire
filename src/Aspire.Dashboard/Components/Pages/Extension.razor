@@ -9,6 +9,7 @@
 @inject IExtensionRegistry ExtensionRegistry
 @inject IJSRuntime JS
 @inject ThemeManager ThemeManager
+@inject ILogger<ChartContainer> Logger
 
 <PageTitle>@_pageTitle</PageTitle>
 
@@ -38,27 +39,24 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        await OnUrlSlugChangedAsync();
-    }
-
-    private async Task OnUrlSlugChangedAsync()
-    {
         if (UrlSlug is not null && !StringComparers.TopLevelPageUrlSlug.Equals(UrlSlug, _lastUrlSlug))
         {
             var page = await ExtensionRegistry.GetTopLevelPageConfigurationAsync(UrlSlug, CancellationToken.None);
 
             if (page is null)
             {
-                // TODO log this
-                Debug.Fail($"Extension page not found: {UrlSlug}");
+                Logger.LogWarning($"Extension page not found: {UrlSlug}");
             }
             else
             {
                 _lastUrlSlug = UrlSlug;
                 _pageTitle = page.Configuration.Title;
                 _extensionUrl = GetExtensionBaseUrl(page);
-                _isLoaded = true;
+
+                Logger.LogDebug("Loading extension \"{Title}\" ({Slug}) content from {TargetUrl}", _pageTitle, UrlSlug, _extensionUrl);
             }
+
+            _isLoaded = true;
         }
 
         static string GetExtensionBaseUrl(TopLevelPageData page)
@@ -83,11 +81,11 @@ else
 
             var jsModule = await JS.InvokeAsync<IJSObjectReference>("import", "/Components/Pages/Extension.razor.js");
 
-            var themeName = ThemeManager.EffectiveTheme.ToLowerInvariant();
+            var themeName = GetThemeName();
 
             _themeChangedSubscription = ThemeManager.OnThemeChanged(async () =>
             {
-                var newTheme = ThemeManager.EffectiveTheme.ToLowerInvariant();
+                var newTheme = GetThemeName();
 
                 if (!string.Equals(themeName, newTheme, StringComparison.Ordinal))
                 {
@@ -98,6 +96,8 @@ else
             });
 
             await jsModule.InvokeVoidAsync("onExtensionLoad", themeName);
+
+            string GetThemeName() => ThemeManager.EffectiveTheme.ToLowerInvariant();
         }
     }
 

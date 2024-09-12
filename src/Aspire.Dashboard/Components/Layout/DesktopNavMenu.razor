@@ -4,6 +4,7 @@
 @using Aspire.Dashboard.Utils
 @inject IStringLocalizer<Layout> Loc
 @inject IDashboardClient DashboardClient
+@inherits NavMenuBase
 
 <FluentAppBar PopoverShowSearch="false">
     @if (DashboardClient.IsEnabled)
@@ -35,7 +36,7 @@
         IconRest="MetricsIcon()"
         IconActive="MetricsIcon(active: true)"
         Text="@Loc[nameof(Layout.NavMenuMetricsTab)]" />
-    @foreach (var topLevelPage in _topLevelPages)
+    @foreach (var topLevelPage in TopLevelPages)
     {
         <FluentAppBarItem
             Href="@($"/extension/{topLevelPage.UrlSlug}")"

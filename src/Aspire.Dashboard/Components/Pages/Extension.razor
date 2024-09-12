@@ -14,26 +14,28 @@
 
 <PageTitle>@_pageTitle</PageTitle>
 
-@if (!_isLoaded)
+@if (_isNotFound || UrlSlug is null)
 {
-    <!-- TODO center this on screen -->
-    <FluentProgressRing />
-}
-else if (_extensionUrl != null)
-{
-    <iframe id="extension-frame" src="@_extensionUrl" style="width:100%; height:100%;"></iframe>
+    <div class="extension-not-found">
+        <h3>@Loc[nameof(Aspire.Dashboard.Resources.Routes.NotFoundDetails)]</h3>
+    </div>
 }
 else
 {
-    <h3>@Loc[nameof(Aspire.Dashboard.Resources.Routes.NotFoundDetails)]</h3>
+    <div id="extension-load-spinner">
+        <FluentProgressRing />
+    </div>
+
+    <iframe @key="@UrlSlug" id="extension-frame" src="@_extensionUrl" style="display: none; width:100%; height:100%;"></iframe>
 }
 
 @code {
     private string? _extensionUrl;
     private string? _pageTitle;
-    private bool _isLoaded;
+    private bool _isNotFound;
     private IDisposable? _themeChangedSubscription;
     private string? _lastUrlSlug;
+    private bool _notifyOnNextRender = false;
 
     [Parameter]
     public string? UrlSlug { get; set; }
@@ -49,17 +51,18 @@ else
                 Logger.LogWarning($"Extension page not found: {UrlSlug}");
                 _extensionUrl = null;
                 _pageTitle = null;
+                _isNotFound = true;
             }
             else
             {
                 _lastUrlSlug = UrlSlug;
                 _pageTitle = page.Configuration.Title;
                 _extensionUrl = GetExtensionBaseUrl(page);
+                _isNotFound = false;
+                _notifyOnNextRender = true;
 
                 Logger.LogDebug("Loading extension \"{Title}\" ({Slug}) content from {TargetUrl}", _pageTitle, UrlSlug, _extensionUrl);
             }
-
-            _isLoaded = true;
         }
 
         static string GetExtensionBaseUrl(TopLevelPageData page)
@@ -78,27 +81,32 @@ else
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
+        if (firstRender || _notifyOnNextRender)
         {
-            await ThemeManager.EnsureEffectiveThemeAsync();
+            var js = await JS.InvokeAsync<IJSObjectReference>("import", "/Components/Pages/Extension.razor.js");
 
-            var jsModule = await JS.InvokeAsync<IJSObjectReference>("import", "/Components/Pages/Extension.razor.js");
+            await ThemeManager.EnsureEffectiveThemeAsync();
 
             var themeName = GetThemeName();
 
-            _themeChangedSubscription = ThemeManager.OnThemeChanged(async () =>
+            if (_themeChangedSubscription is null)
             {
-                var newTheme = GetThemeName();
-
-                if (!string.Equals(themeName, newTheme, StringComparison.Ordinal))
+                _themeChangedSubscription = ThemeManager.OnThemeChanged(async () =>
                 {
-                    themeName = newTheme;
+                    var newTheme = GetThemeName();
 
-                    await jsModule.InvokeVoidAsync("setTheme", themeName);
-                }
-            });
+                    if (!string.Equals(themeName, newTheme, StringComparison.Ordinal))
+                    {
+                        themeName = newTheme;
 
-            await jsModule.InvokeVoidAsync("onExtensionLoad", themeName);
+                        await js.InvokeVoidAsync("setTheme", themeName);
+                    }
+                });
+            }
+
+            await js.InvokeVoidAsync("onExtensionLoad", themeName);
+
+            _notifyOnNextRender = false;
 
             string GetThemeName() => ThemeManager.EffectiveTheme.ToLowerInvariant();
         }

@@ -25,6 +25,7 @@ entrypoint
 equatable
 grainstate
 grpc
+iframe
 javascript
 kubeconfig
 Kubelet

@@ -129,13 +129,21 @@ message Volume {
     bool is_read_only = 4;
 }
 
+// A name/value property of a resource.
 message ResourceProperty {
     // Name of the data item, e.g. "container.id", "executable.pid", "project.path", ...
     string name = 1;
-    // TODO move display_name to reference data, sent once when the connection starts
+
     // Optional display name, may be localized
     optional string display_name = 2;
-    // The data value. May be null, a number, a string, a boolean, a dictionary of values (Struct), or a list of values (ValueList).
+
+    // The data value. Supported types of values:
+    // - null
+    // - number
+    // - string
+    // - boolean
+    // - dictionary (Struct) of supported values
+    // - list (ValueList) of supported values
     google.protobuf.Value value = 3;
 }
 
@@ -171,8 +179,13 @@ message Resource {
     // The set of volumes mounted to the resource. Only applies to containers.
     repeated Volume volumes = 15;
 
+    // Whether this resource is generally uninteresting to developers using Aspire.
+    // Clients such as the dashboard may use this to hide resources from the user.
+    // The dashboard itself is a good example of a system resource, along with any
+    // dashboard extensions.
     optional bool is_system_resource = 16;
 
+    // Whether this extension resource provides an extension to the dashboard.
     optional bool is_dashboard_extension = 17;
 }
 

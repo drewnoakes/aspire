@@ -35,11 +35,11 @@ else
     private string? _extensionUrl;
     private string? _pageTitle;
     private bool _isNotFound;
+    private bool _notifyOnNextRender;
     private IDisposable? _themeChangedSubscription;
     private string? _lastUrlSlug;
-    private bool _notifyOnNextRender = false;
 
-    [Parameter]
+    [Parameter, EditorRequired]
     public string? UrlSlug { get; set; }
 
     protected override async Task OnParametersSetAsync()

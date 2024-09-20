@@ -22,6 +22,16 @@
         <target state="translated">Szczegóły wyjątku</target>
         <note />
       </trans-unit>
+      <trans-unit id="PendingResourceStateName">
+        <source>Pending</source>
+        <target state="new">Pending</target>
+        <note>This term reflects the state of a resource that is running, but is not yet ready to receive requests.</note>
+      </trans-unit>
+      <trans-unit id="PendingResourceStateToolTip">
+        <source>Pending</source>
+        <target state="new">Pending</target>
+        <note>Tool tip text explaining that the resource is running but not yet ready to receive requests.</note>
+      </trans-unit>
       <trans-unit id="ResourceNameDisplayContainerIdText">
         <source>Container ID: {0}</source>
         <target state="translated">Identyfikator kontenera: {0}</target>

@@ -101,9 +101,10 @@ else
 }
 else
 {
-    if (Resource.ShowReadinessState())
+    if (Resource.IsRunningState() && Resource.ReadinessState is ReadinessState.NotReady)
     {
-        <span>@Resource.State.Humanize() (@Resource.ReadinessState.Humanize())</span>
+        // The resource is running but not ready
+        <span title="@Loc[nameof(Columns.PendingResourceStateToolTip)]">@Loc[nameof(Columns.PendingResourceStateName)]</span>
     }
     else
     {
@@ -115,9 +116,9 @@ else
 
 @code {
     [Parameter, EditorRequired]
-    public required ResourceViewModel Resource { get; set; }
+    public required ResourceViewModel Resource { get; init; }
 
 
     [Parameter, EditorRequired]
-    public required Dictionary<ApplicationKey, int>? UnviewedErrorCounts { get; set; }
+    public required Dictionary<ApplicationKey, int>? UnviewedErrorCounts { get; init; }
 }

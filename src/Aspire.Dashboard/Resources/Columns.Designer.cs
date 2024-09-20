@@ -97,6 +97,24 @@ namespace Aspire.Dashboard.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pending.
+        /// </summary>
+        public static string PendingResourceStateName {
+            get {
+                return ResourceManager.GetString("PendingResourceStateName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pending.
+        /// </summary>
+        public static string PendingResourceStateToolTip {
+            get {
+                return ResourceManager.GetString("PendingResourceStateToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Container ID: {0}.
         /// </summary>
         public static string ResourceNameDisplayContainerIdText {

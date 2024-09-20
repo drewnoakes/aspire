@@ -85,7 +85,8 @@ else
         case ReadinessState.Unknown or ReadinessState.Ready:
             <FluentIcon Icon="Icons.Filled.Size16.CheckmarkCircle"
                         Color="Color.Success"
-                        Class="severity-icon" />
+                        Class="severity-icon"
+                        title="@Loc[nameof(Columns.PendingResourceStateToolTip)]" />
             break;
         default:
             <FluentIcon Icon="Icons.Regular.Size16.CheckmarkCircleWarning"

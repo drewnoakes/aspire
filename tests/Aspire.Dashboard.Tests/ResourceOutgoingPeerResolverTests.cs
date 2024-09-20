@@ -28,7 +28,8 @@ public class ResourceOutgoingPeerResolverTests
             ReadinessState = ReadinessState.Ready,
             KnownState = null,
             StateStyle = null,
-            Commands = []
+            Commands = [],
+            WaitsFor = []
         };
     }
 

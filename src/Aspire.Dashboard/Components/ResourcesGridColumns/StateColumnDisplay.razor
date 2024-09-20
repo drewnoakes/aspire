@@ -1,14 +1,22 @@
 ﻿@{
     var vm = GetStateViewModel();
+    var waitsFor = Resource.WaitsFor.IsEmpty ? null : string.Join(" ", Resource.WaitsFor);
 }
 
-<FluentIcon
-    Value="@vm.Icon"
-    Color="@vm.Color"
-    Class="severity-icon" />
+<div
+    class="state-column-cell"
+    data-waits-for="@waitsFor"
+    data-resource-name="@Resource.DisplayName">
 
-<span>@vm.Text</span>
+    <FluentIcon
+        Value="@vm.Icon"
+        Color="@vm.Color"
+        Class="severity-icon" />
 
-<UnreadLogErrorsBadge
-    UnviewedErrorCounts="UnviewedErrorCounts"
-    Resource="@Resource" />
+    <span>@vm.Text</span>
+
+    <UnreadLogErrorsBadge
+        UnviewedErrorCounts="UnviewedErrorCounts"
+        Resource="@Resource" />
+
+</div>

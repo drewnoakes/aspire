@@ -595,8 +595,10 @@ internal sealed class ApplicationExecutor(ILogger<ApplicationExecutor> logger,
 
     private CustomResourceSnapshot ToSnapshot(Container container, CustomResourceSnapshot previous)
     {
+        IResource? appModelResource = null;
+
         if (container.AppModelResourceName is not null &&
-            _applicationModel.TryGetValue(container.AppModelResourceName, out var appModelResource))
+            _applicationModel.TryGetValue(container.AppModelResourceName, out appModelResource))
         {
             if (appModelResource.TryGetLastAnnotation<ReplicaInstancesAnnotation>(out var replicaAnnotation))
             {
@@ -627,7 +629,8 @@ internal sealed class ApplicationExecutor(ILogger<ApplicationExecutor> logger,
             EnvironmentVariables = environment,
             CreationTimeStamp = container.Metadata.CreationTimestamp?.ToLocalTime(),
             Urls = urls,
-            Volumes = volumes
+            Volumes = volumes,
+            WaitForResourceNames = appModelResource?.GetWaitForResourceNames() ?? []
         };
 
         ImmutableArray<int> GetPorts()
@@ -652,6 +655,7 @@ internal sealed class ApplicationExecutor(ILogger<ApplicationExecutor> logger,
     private CustomResourceSnapshot ToSnapshot(Executable executable, CustomResourceSnapshot previous)
     {
         string? projectPath = null;
+        ImmutableArray<string> waitFors = [];
 
         if (executable.AppModelResourceName is not null &&
             _applicationModel.TryGetValue(executable.AppModelResourceName, out var appModelResource))
@@ -662,6 +666,8 @@ internal sealed class ApplicationExecutor(ILogger<ApplicationExecutor> logger,
             {
                 replicaAnnotation.Instances.TryAdd(executable.Metadata.Name, executable.Metadata.Name);
             }
+
+            waitFors = appModelResource.GetWaitForResourceNames();
         }
 
         var state = executable.AppModelInitialState is "Hidden" ? "Hidden" : executable.Status?.State;
@@ -686,7 +692,8 @@ internal sealed class ApplicationExecutor(ILogger<ApplicationExecutor> logger,
                 ],
                 EnvironmentVariables = environment,
                 CreationTimeStamp = executable.Metadata.CreationTimestamp?.ToLocalTime(),
-                Urls = urls
+                Urls = urls,
+                WaitForResourceNames = waitFors
             };
         }
 

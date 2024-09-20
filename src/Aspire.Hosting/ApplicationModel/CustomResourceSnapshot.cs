@@ -12,6 +12,10 @@ namespace Aspire.Hosting.ApplicationModel;
 /// </summary>
 public sealed record CustomResourceSnapshot
 {
+#pragma warning disable
+    public CustomResourceSnapshot() { }
+#pragma warning restore
+
     /// <summary>
     /// The type of the resource.
     /// </summary>
@@ -61,6 +65,11 @@ public sealed record CustomResourceSnapshot
     /// The commands available in the dashboard for this resource.
     /// </summary>
     public ImmutableArray<ResourceCommandSnapshot> Commands { get; init; } = [];
+
+    /// <summary>
+    /// Gets the set of resource names that this resource will wait for. May be empty.
+    /// </summary>
+    public ImmutableArray<string> WaitForResourceNames { get; init; } = [];
 }
 
 /// <summary>

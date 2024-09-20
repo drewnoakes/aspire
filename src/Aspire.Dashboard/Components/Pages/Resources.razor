@@ -89,7 +89,7 @@
                                         TGridItem="ResourceViewModel"
                                         ItemKey="@(r => r.Name)"
                                         OnRowClick="@(r => r.ExecuteOnDefault(d => ShowResourceDetailsAsync(d, buttonId: null)))"
-                                        Class="enable-row-click">
+                                        Class="resource-grid enable-row-click">
                             <ChildContent>
                                 <AspirePropertyColumn ColumnId="@TypeColumn" ColumnManager="@_manager" Title="@Loc[nameof(Dashboard.Resources.Resources.ResourcesTypeColumnHeader)]" Property="@(c => c.ResourceType)" Sortable="true" Tooltip="true" TooltipText="@(c => c.ResourceType)" />
                                 <AspireTemplateColumn ColumnId="@NameColumn" ColumnManager="@_manager" Title="@ControlsStringsLoc[nameof(ControlsStrings.NameColumnHeader)]" Sortable="true" SortBy="@_nameSort" Tooltip="true" TooltipText="@(c => GetResourceName(c))">

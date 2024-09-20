@@ -203,7 +203,8 @@ public sealed class ResourceEndpointHelpersTests
             KnownState = null,
             StateStyle = null,
             ReadinessState = ReadinessState.Ready,
-            Commands = []
+            Commands = [],
+            WaitsFor = []
         };
     }
 }

@@ -132,7 +132,8 @@ internal sealed class DashboardLifecycleHook(IConfiguration configuration,
                 ContainerResource => KnownResourceTypes.Container,
                 _ => dashboardResource.GetType().Name
             },
-            State = configuration.GetBool("DOTNET_ASPIRE_SHOW_DASHBOARD_RESOURCES") is true ? null : KnownResourceStates.Hidden
+            State = configuration.GetBool("DOTNET_ASPIRE_SHOW_DASHBOARD_RESOURCES") is true ? null : KnownResourceStates.Hidden,
+            WaitForResourceNames = dashboardResource.GetWaitForResourceNames()
         };
 
         dashboardResource.Annotations.Add(new ResourceSnapshotAnnotation(snapshot));

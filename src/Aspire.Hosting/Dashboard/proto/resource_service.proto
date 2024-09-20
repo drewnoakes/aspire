@@ -192,7 +192,10 @@ message Resource {
     repeated Volume volumes = 15;
 
     // The aggregate health state of the resource
-    optional HealthStateKind HealthState = 16;
+    optional HealthStateKind health_state = 16;
+
+    // Set of resources that must be ready before this resource can start. May be empty.
+    repeated string waits_for = 17;
 }
 
 enum HealthStateKind {

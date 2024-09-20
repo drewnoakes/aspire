@@ -32,3 +32,7 @@
 ::deep fluent-data-grid {
     overflow-x: clip;
 }
+
+::deep .highlight {
+    background-color: var(--neutral-layer-1);
+}

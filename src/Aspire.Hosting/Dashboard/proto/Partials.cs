@@ -61,6 +61,8 @@ partial class Resource
             resource.Commands.Add(new ResourceCommand { CommandType = command.Type, DisplayName = command.DisplayName, IconName = command.IconName ?? string.Empty, IconVariant = MapIconVariant(command.IconVariant), IsHighlighted = command.IsHighlighted, State = MapCommandState(command.State) });
         }
 
+        resource.WaitsFor.AddRange(snapshot.WaitForResourceNames);
+
         return resource;
     }
 

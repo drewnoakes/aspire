@@ -40,7 +40,8 @@ public sealed class MockDashboardClient : IDashboardClient
         StateStyle = null,
         ReadinessState = ReadinessState.Ready,
         Urls = [],
-        Volumes = []
+        Volumes = [],
+        WaitsFor = []
     };
 
     public bool IsEnabled => true;

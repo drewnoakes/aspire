@@ -198,7 +198,8 @@ public class ResourcePublisherTests
             Volumes = [],
             Environment = [],
             HealthState = null,
-            Commands = []
+            Commands = [],
+            WaitForResourceNames = []
         };
     }
 

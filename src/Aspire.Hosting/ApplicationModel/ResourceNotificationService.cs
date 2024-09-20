@@ -473,7 +473,8 @@ public class ResourceNotificationService
             previousState ??= new CustomResourceSnapshot()
             {
                 ResourceType = resource.GetType().Name,
-                Properties = []
+                Properties = [],
+                WaitForResourceNames = resource.GetWaitForResourceNames()
             };
         }
 

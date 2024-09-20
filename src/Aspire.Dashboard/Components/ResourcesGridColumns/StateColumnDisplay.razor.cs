@@ -10,11 +10,14 @@ using Humanizer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using Microsoft.FluentUI.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace Aspire.Dashboard.Components.ResourcesGridColumns;
 
 public partial class StateColumnDisplay
 {
+    private IJSObjectReference? _jsModule;
+
     [Parameter, EditorRequired]
     public required ResourceViewModel Resource { get; init; }
 
@@ -23,6 +26,16 @@ public partial class StateColumnDisplay
 
     [Inject]
     public required IStringLocalizer<Columns> Loc { get; init; }
+
+    [Inject]
+    public required IJSRuntime JS { get; init; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        _jsModule ??= await JS.InvokeAsync<IJSObjectReference>("import", "/Components/ResourcesGridColumns/StateColumnDisplay.razor.js");
+
+        await _jsModule.InvokeVoidAsync("addWaitForMouseEventListeners");
+    }
 
     /// <summary>
     /// Gets the tooltip for the state column.

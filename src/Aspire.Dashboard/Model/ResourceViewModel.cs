@@ -30,6 +30,7 @@ public sealed class ResourceViewModel
     public required ImmutableArray<VolumeViewModel> Volumes { get; init; }
     public required FrozenDictionary<string, ResourcePropertyViewModel> Properties { get; init; }
     public required ImmutableArray<CommandViewModel> Commands { get; init; }
+    public required ImmutableArray<string> WaitsFor { get; init; }
     public KnownResourceState? KnownState { get; init; }
 
     internal bool MatchesFilter(string filter)

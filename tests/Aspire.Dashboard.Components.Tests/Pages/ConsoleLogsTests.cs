@@ -196,7 +196,8 @@ public partial class ConsoleLogsTests : TestContext
             KnownState = state,
             StateStyle = null,
             ReadinessState = ReadinessState.Ready,
-            Commands = []
+            Commands = [],
+            WaitsFor = []
         };
     }
 }

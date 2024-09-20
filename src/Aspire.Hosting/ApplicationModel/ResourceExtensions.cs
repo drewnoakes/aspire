@@ -1,6 +1,7 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Aspire.Hosting.ApplicationModel;
@@ -248,5 +249,15 @@ public static class ResourceExtensions
         }
 
         return ContainerLifetime.Default;
+    }
+
+    internal static ImmutableArray<string> GetWaitForResourceNames(this IResource resource)
+    {
+        if (resource.TryGetAnnotationsOfType<WaitAnnotation>(out var annotations))
+        {
+            return annotations.Select(a => a.Resource.Name).ToImmutableArray();
+        }
+
+        return [];
     }
 }

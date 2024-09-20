@@ -51,7 +51,8 @@ partial class Resource
                     HealthStateKind.Healthy => ReadinessState.Ready,
                     _ => ReadinessState.NotReady,
                 } : ReadinessState.Unknown,
-                Commands = GetCommands()
+                Commands = GetCommands(),
+                WaitsFor = WaitsFor.ToImmutableArray(),
             };
         }
         catch (Exception ex)

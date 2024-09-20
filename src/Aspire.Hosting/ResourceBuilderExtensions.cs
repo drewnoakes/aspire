@@ -604,7 +604,7 @@ public static class ResourceBuilderExtensions
     /// <typeparam name="T">The type of the resource.</typeparam>
     /// <param name="builder">The resource builder for the resource that will be waiting.</param>
     /// <param name="dependency">The resource builder for the dependency resource.</param>
-    /// <param name="exitCode">The exit code which is interpretted as successful.</param>
+    /// <param name="exitCode">The exit code which is interpreted as successful.</param>
     /// <returns>The resource builder.</returns>
     /// <remarks>
     /// <para>This method is useful when a resource should wait until another has completed. A common usage pattern
@@ -672,9 +672,7 @@ public static class ResourceBuilderExtensions
             throw new DistributedApplicationException($"Resource '{builder.Resource.Name}' already has a health check with key '{key}'.");
         }
 
-        builder.WithAnnotation(new HealthCheckAnnotation(key));
-
-        return builder;
+        return builder.WithAnnotation(new HealthCheckAnnotation(key));
     }
 
     /// <summary>

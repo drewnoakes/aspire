@@ -88,29 +88,29 @@ namespace Aspire.Dashboard.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Initializing.
+        /// </summary>
+        public static string InitializingResourceStateName {
+            get {
+                return ResourceManager.GetString("InitializingResourceStateName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource is running but not yet ready to receive requests..
+        /// </summary>
+        public static string InitializingResourceStateToolTip {
+            get {
+                return ResourceManager.GetString("InitializingResourceStateToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exception details.
         /// </summary>
         public static string LogMessageColumnExceptionDetailsTitle {
             get {
                 return ResourceManager.GetString("LogMessageColumnExceptionDetailsTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pending.
-        /// </summary>
-        public static string PendingResourceStateName {
-            get {
-                return ResourceManager.GetString("PendingResourceStateName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pending.
-        /// </summary>
-        public static string PendingResourceStateToolTip {
-            get {
-                return ResourceManager.GetString("PendingResourceStateToolTip", resourceCulture);
             }
         }
         
@@ -264,6 +264,15 @@ namespace Aspire.Dashboard.Resources {
         public static string UnreadLogErrorsBadgeOneErrorLog {
             get {
                 return ResourceManager.GetString("UnreadLogErrorsBadgeOneErrorLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting for another resource to be ready before starting..
+        /// </summary>
+        public static string WaitingResourceStateToolTip {
+            get {
+                return ResourceManager.GetString("WaitingResourceStateToolTip", resourceCulture);
             }
         }
     }

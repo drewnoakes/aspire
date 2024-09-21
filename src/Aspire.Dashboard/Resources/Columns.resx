@@ -189,12 +189,16 @@
   <data name="EndpointsColumnDisplayOverflowTitle" xml:space="preserve">
     <value>Endpoints</value>
   </data>
-  <data name="PendingResourceStateName" xml:space="preserve">
-    <value>Pending</value>
+  <data name="InitializingResourceStateName" xml:space="preserve">
+    <value>Initializing</value>
     <comment>This term reflects the state of a resource that is running, but is not yet ready to receive requests.</comment>
   </data>
-  <data name="PendingResourceStateToolTip" xml:space="preserve">
-    <value>Pending</value>
+  <data name="InitializingResourceStateToolTip" xml:space="preserve">
+    <value>Resource is running but not yet ready to receive requests.</value>
     <comment>Tool tip text explaining that the resource is running but not yet ready to receive requests.</comment>
+  </data>
+  <data name="WaitingResourceStateToolTip" xml:space="preserve">
+    <value>Waiting for another resource to be ready before starting.</value>
+    <comment>Tool tip text explaining that the resource is waiting for another resource to be ready before it will start itself.</comment>
   </data>
 </root>

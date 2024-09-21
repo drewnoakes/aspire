@@ -17,20 +17,20 @@
         <target state="translated">시작 중...</target>
         <note />
       </trans-unit>
+      <trans-unit id="InitializingResourceStateName">
+        <source>Initializing</source>
+        <target state="new">Initializing</target>
+        <note>This term reflects the state of a resource that is running, but is not yet ready to receive requests.</note>
+      </trans-unit>
+      <trans-unit id="InitializingResourceStateToolTip">
+        <source>Resource is running but not yet ready to receive requests.</source>
+        <target state="new">Resource is running but not yet ready to receive requests.</target>
+        <note>Tool tip text explaining that the resource is running but not yet ready to receive requests.</note>
+      </trans-unit>
       <trans-unit id="LogMessageColumnExceptionDetailsTitle">
         <source>Exception details</source>
         <target state="translated">예외 세부 정보</target>
         <note />
-      </trans-unit>
-      <trans-unit id="PendingResourceStateName">
-        <source>Pending</source>
-        <target state="new">Pending</target>
-        <note>This term reflects the state of a resource that is running, but is not yet ready to receive requests.</note>
-      </trans-unit>
-      <trans-unit id="PendingResourceStateToolTip">
-        <source>Pending</source>
-        <target state="new">Pending</target>
-        <note>Tool tip text explaining that the resource is running but not yet ready to receive requests.</note>
       </trans-unit>
       <trans-unit id="ResourceNameDisplayContainerIdText">
         <source>Container ID: {0}</source>
@@ -116,6 +116,11 @@
         <source>1 error log</source>
         <target state="translated">1개의 오류 로그</target>
         <note />
+      </trans-unit>
+      <trans-unit id="WaitingResourceStateToolTip">
+        <source>Waiting for another resource to be ready before starting.</source>
+        <target state="new">Waiting for another resource to be ready before starting.</target>
+        <note>Tool tip text explaining that the resource is waiting for another resource to be ready before it will start itself.</note>
       </trans-unit>
     </body>
   </file>

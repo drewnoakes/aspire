@@ -1,6 +1,6 @@
 ﻿@{
     var vm = GetStateViewModel();
-    var waitsFor = Resource.WaitsFor.IsEmpty ? null : string.Join(" ", Resource.WaitsFor);
+    var waitsFor = Resource.WaitFors.IsEmpty ? null : string.Join(" ", Resource.WaitFors.Select(w => w.ResourceName));
 }
 
 <div

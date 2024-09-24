@@ -30,7 +30,7 @@ public sealed class ResourceViewModel
     public required ImmutableArray<VolumeViewModel> Volumes { get; init; }
     public required FrozenDictionary<string, ResourcePropertyViewModel> Properties { get; init; }
     public required ImmutableArray<CommandViewModel> Commands { get; init; }
-    public required ImmutableArray<string> WaitsFor { get; init; }
+    public required ImmutableArray<WaitForViewModel> WaitFors { get; init; }
     public KnownResourceState? KnownState { get; init; }
 
     internal bool MatchesFilter(string filter)
@@ -250,4 +250,18 @@ public sealed record class VolumeViewModel(string? Source, string Target, string
     string? IPropertyGridItem.Name => Source;
 
     string? IPropertyGridItem.Value => Target;
+}
+
+public sealed record class WaitForViewModel(string ResourceName, WaitType WaitType, int ExitCode) : IPropertyGridItem
+{
+    string? IPropertyGridItem.Name => ResourceName;
+
+    string? IPropertyGridItem.Value => WaitType.ToString();
+}
+
+public enum WaitType
+{
+    Unknown,
+    WaitUntilHealthy,
+    WaitForCompletion
 }

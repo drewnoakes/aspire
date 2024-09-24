@@ -197,7 +197,7 @@ public partial class ConsoleLogsTests : TestContext
             StateStyle = null,
             ReadinessState = ReadinessState.Ready,
             Commands = [],
-            WaitsFor = []
+            WaitFors = []
         };
     }
 }

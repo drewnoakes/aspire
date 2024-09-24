@@ -26,7 +26,7 @@ internal abstract class ResourceSnapshot
     public required ImmutableArray<UrlSnapshot> Urls { get; init; }
     public required HealthStateKind? HealthState { get; set; }
     public required ImmutableArray<ResourceCommandSnapshot> Commands { get; init; }
-    public required ImmutableArray<string> WaitForResourceNames { get; init; }
+    public required ImmutableArray<WaitForSnapshot> WaitFors { get; init; }
 
     protected abstract IEnumerable<(string Key, Value Value, bool IsSensitive)> GetProperties();
 

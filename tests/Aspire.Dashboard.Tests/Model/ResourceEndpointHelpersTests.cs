@@ -204,7 +204,7 @@ public sealed class ResourceEndpointHelpersTests
             StateStyle = null,
             ReadinessState = ReadinessState.Ready,
             Commands = [],
-            WaitsFor = []
+            WaitFors = []
         };
     }
 }

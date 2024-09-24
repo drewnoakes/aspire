@@ -41,10 +41,16 @@ public partial class ResourceDetails
             .AsQueryable();
 
     private IQueryable<VolumeViewModel> FilteredVolumes =>
-        Resource.Volumes.Where(vm =>
-            vm.Source?.Contains(_filter, StringComparison.CurrentCultureIgnoreCase) == true ||
-            vm.Target?.Contains(_filter, StringComparison.CurrentCultureIgnoreCase) == true
-        ).AsQueryable();
+        Resource.Volumes
+            .Where(vm =>
+                vm.Source?.Contains(_filter, StringComparison.CurrentCultureIgnoreCase) == true ||
+                vm.Target?.Contains(_filter, StringComparison.CurrentCultureIgnoreCase) == true)
+            .AsQueryable();
+
+    private IQueryable<WaitForViewModel> FilteredWaitsFor =>
+        Resource.WaitFors
+            .Where(vm => vm.ResourceName?.Contains(_filter, StringComparison.CurrentCultureIgnoreCase) == true)
+            .AsQueryable();
 
     private IQueryable<ResourcePropertyViewModel> FilteredResourceProperties =>
         GetResourceProperties(ordered: true)

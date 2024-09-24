@@ -199,7 +199,7 @@ public class ResourcePublisherTests
             Environment = [],
             HealthState = null,
             Commands = [],
-            WaitForResourceNames = []
+            WaitFors = []
         };
     }
 

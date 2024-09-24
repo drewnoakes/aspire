@@ -29,7 +29,7 @@ public class ResourceOutgoingPeerResolverTests
             KnownState = null,
             StateStyle = null,
             Commands = [],
-            WaitsFor = []
+            WaitFors = []
         };
     }
 

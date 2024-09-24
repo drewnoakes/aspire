@@ -119,7 +119,7 @@ public class CreateResourceSelectModelsTests
             StateStyle = null,
             ReadinessState = ReadinessState.Ready,
             Commands = [],
-            WaitsFor = []
+            WaitFors = []
         };
     }
 }

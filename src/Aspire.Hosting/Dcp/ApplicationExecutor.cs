@@ -630,7 +630,7 @@ internal sealed class ApplicationExecutor(ILogger<ApplicationExecutor> logger,
             CreationTimeStamp = container.Metadata.CreationTimestamp?.ToLocalTime(),
             Urls = urls,
             Volumes = volumes,
-            WaitForResourceNames = appModelResource?.GetWaitForResourceNames() ?? []
+            WaitFors = appModelResource?.GetWaitFors() ?? []
         };
 
         ImmutableArray<int> GetPorts()
@@ -655,7 +655,7 @@ internal sealed class ApplicationExecutor(ILogger<ApplicationExecutor> logger,
     private CustomResourceSnapshot ToSnapshot(Executable executable, CustomResourceSnapshot previous)
     {
         string? projectPath = null;
-        ImmutableArray<string> waitFors = [];
+        ImmutableArray<WaitForSnapshot> waitFors = [];
 
         if (executable.AppModelResourceName is not null &&
             _applicationModel.TryGetValue(executable.AppModelResourceName, out var appModelResource))
@@ -667,7 +667,7 @@ internal sealed class ApplicationExecutor(ILogger<ApplicationExecutor> logger,
                 replicaAnnotation.Instances.TryAdd(executable.Metadata.Name, executable.Metadata.Name);
             }
 
-            waitFors = appModelResource.GetWaitForResourceNames();
+            waitFors = appModelResource.GetWaitFors();
         }
 
         var state = executable.AppModelInitialState is "Hidden" ? "Hidden" : executable.Status?.State;
@@ -693,7 +693,7 @@ internal sealed class ApplicationExecutor(ILogger<ApplicationExecutor> logger,
                 EnvironmentVariables = environment,
                 CreationTimeStamp = executable.Metadata.CreationTimestamp?.ToLocalTime(),
                 Urls = urls,
-                WaitForResourceNames = waitFors
+                WaitFors = waitFors
             };
         }
 

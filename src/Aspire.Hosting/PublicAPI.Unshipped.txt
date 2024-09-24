@@ -37,8 +37,8 @@ Aspire.Hosting.ApplicationModel.CustomResourceSnapshot.Commands.get -> System.Co
 Aspire.Hosting.ApplicationModel.CustomResourceSnapshot.Commands.init -> void
 Aspire.Hosting.ApplicationModel.CustomResourceSnapshot.HealthStatus.get -> Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus?
 Aspire.Hosting.ApplicationModel.CustomResourceSnapshot.HealthStatus.init -> void
-Aspire.Hosting.ApplicationModel.CustomResourceSnapshot.WaitForResourceNames.get -> System.Collections.Immutable.ImmutableArray<string!>
-Aspire.Hosting.ApplicationModel.CustomResourceSnapshot.WaitForResourceNames.init -> void
+Aspire.Hosting.ApplicationModel.CustomResourceSnapshot.WaitFors.get -> System.Collections.Immutable.ImmutableArray<Aspire.Hosting.ApplicationModel.WaitForSnapshot!>
+Aspire.Hosting.ApplicationModel.CustomResourceSnapshot.WaitFors.init -> void
 Aspire.Hosting.ApplicationModel.EndpointAnnotation.TargetHost.get -> string!
 Aspire.Hosting.ApplicationModel.EndpointAnnotation.TargetHost.set -> void
 Aspire.Hosting.ApplicationModel.CustomResourceSnapshot.Volumes.get -> System.Collections.Immutable.ImmutableArray<Aspire.Hosting.ApplicationModel.VolumeSnapshot!>
@@ -117,6 +117,14 @@ Aspire.Hosting.ApplicationModel.WaitAnnotation.ExitCode.get -> int
 Aspire.Hosting.ApplicationModel.WaitAnnotation.Resource.get -> Aspire.Hosting.ApplicationModel.IResource!
 Aspire.Hosting.ApplicationModel.WaitAnnotation.WaitAnnotation(Aspire.Hosting.ApplicationModel.IResource! resource, Aspire.Hosting.ApplicationModel.WaitType waitType, int exitCode = 0) -> void
 Aspire.Hosting.ApplicationModel.WaitAnnotation.WaitType.get -> Aspire.Hosting.ApplicationModel.WaitType
+Aspire.Hosting.ApplicationModel.WaitForSnapshot
+Aspire.Hosting.ApplicationModel.WaitForSnapshot.ExitCode.get -> int
+Aspire.Hosting.ApplicationModel.WaitForSnapshot.ExitCode.init -> void
+Aspire.Hosting.ApplicationModel.WaitForSnapshot.ResourceName.get -> string!
+Aspire.Hosting.ApplicationModel.WaitForSnapshot.ResourceName.init -> void
+Aspire.Hosting.ApplicationModel.WaitForSnapshot.WaitForSnapshot(string! ResourceName, Aspire.Hosting.ApplicationModel.WaitType WaitType, int ExitCode) -> void
+Aspire.Hosting.ApplicationModel.WaitForSnapshot.WaitType.get -> Aspire.Hosting.ApplicationModel.WaitType
+Aspire.Hosting.ApplicationModel.WaitForSnapshot.WaitType.init -> void
 Aspire.Hosting.ApplicationModel.WaitType
 Aspire.Hosting.ApplicationModel.WaitType.WaitForCompletion = 1 -> Aspire.Hosting.ApplicationModel.WaitType
 Aspire.Hosting.ApplicationModel.WaitType.WaitUntilHealthy = 0 -> Aspire.Hosting.ApplicationModel.WaitType

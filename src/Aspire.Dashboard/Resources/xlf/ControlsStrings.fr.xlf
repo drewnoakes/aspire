@@ -277,6 +277,11 @@
         <target state="new">Resource</target>
         <note />
       </trans-unit>
+      <trans-unit id="ResourceWaitsForHeader">
+        <source>Waits For</source>
+        <target state="new">Waits For</target>
+        <note />
+      </trans-unit>
       <trans-unit id="SelectAnApplication">
         <source>Select an application</source>
         <target state="translated">Sélectionner une application</target>

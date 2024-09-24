@@ -108,28 +108,26 @@
                     </PropertyGrid>
                 </FluentAccordionItem>
             }
-            @*
-            @if (!Resource.WaitsFor.IsEmpty)
-            {
-                <FluentAccordionItem Heading="@ControlStringsLoc[nameof(ControlsStrings.ResourceWaitsForHeader)]" Expanded="true">
-                    <div slot="end">
-                        <FluentBadge Appearance="Appearance.Neutral" Circular="true">
-                            @FilteredVolumes.Count()
-                        </FluentBadge>
-                    </div>
-                    <PropertyGrid TItem="VolumeViewModel"
-                                  Items="@FilteredVolumes"
-                                  NameColumnValue="(vm) => vm.Source"
-                                  ValueColumnValue="(vm) => vm.Target"
-                                  IsNameSortable="false"
-                                  IsValueSortable="false"
-                                  EnableValueMasking="false"
-                                  HighlightText="@_filter"
-                                  GridTemplateColumns="1fr 1.5fr">
-                    </PropertyGrid>
-                </FluentAccordionItem>
-            }
-            *@
+            <FluentAccordionItem Heading="@ControlStringsLoc[nameof(ControlsStrings.ResourceWaitsForHeader)]" Expanded="true">
+                <div slot="end">
+                    <FluentBadge Appearance="Appearance.Neutral" Circular="true">
+                        @FilteredWaitsFor.Count()
+                    </FluentBadge>
+                </div>
+                <PropertyGrid TItem="WaitForViewModel"
+                                Items="@FilteredWaitsFor"
+                                IsNameSortable="false"
+                                IsValueSortable="false"
+                                HighlightText="@_filter"
+                                GridTemplateColumns="1fr 1.5fr">
+                    <ExtraValueContent>
+                        @if (context.ExitCode is not 0)
+                        {
+                            <span>Must exit with code @context.ExitCode.</span>
+                        }
+                    </ExtraValueContent>
+                </PropertyGrid>
+            </FluentAccordionItem>
         </FluentAccordion>
     </div>
 </div>

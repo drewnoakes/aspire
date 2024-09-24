@@ -474,7 +474,7 @@ public class ResourceNotificationService
             {
                 ResourceType = resource.GetType().Name,
                 Properties = [],
-                WaitForResourceNames = resource.GetWaitForResourceNames()
+                WaitFors = resource.GetWaitFors()
             };
         }
 

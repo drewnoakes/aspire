@@ -52,12 +52,27 @@ partial class Resource
                     _ => ReadinessState.NotReady,
                 } : ReadinessState.Unknown,
                 Commands = GetCommands(),
-                WaitsFor = WaitsFor.ToImmutableArray(),
+                WaitFors = WaitFors.Select(ToViewModel).ToImmutableArray(),
             };
         }
         catch (Exception ex)
         {
             throw new InvalidOperationException($@"Error converting resource ""{Name}"" to {nameof(ResourceViewModel)}.", ex);
+        }
+
+        WaitForViewModel ToViewModel(WaitFor waitFor)
+        {
+            return new WaitForViewModel(waitFor.ResourceName, Convert(waitFor.WaitType), waitFor.ExitCode);
+
+            static Dashboard.Model.WaitType Convert(WaitType waitType)
+            {
+                return waitType switch
+                {
+                    WaitType.WaitUntilHealthy => Dashboard.Model.WaitType.WaitUntilHealthy,
+                    WaitType.WaitForCompletion => Dashboard.Model.WaitType.WaitForCompletion,
+                    _ => throw new InvalidOperationException("Unknown wait type: " + waitType),
+                };
+            }
         }
 
         ImmutableArray<EnvironmentVariableViewModel> GetEnvironment()

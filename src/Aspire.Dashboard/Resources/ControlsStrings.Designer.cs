@@ -556,6 +556,15 @@ namespace Aspire.Dashboard.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Waits For.
+        /// </summary>
+        public static string ResourceWaitsForHeader {
+            get {
+                return ResourceManager.GetString("ResourceWaitsForHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select an application.
         /// </summary>
         public static string SelectAnApplication {

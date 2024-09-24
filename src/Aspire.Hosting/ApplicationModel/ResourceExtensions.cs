@@ -251,11 +251,11 @@ public static class ResourceExtensions
         return ContainerLifetime.Default;
     }
 
-    internal static ImmutableArray<string> GetWaitForResourceNames(this IResource resource)
+    internal static ImmutableArray<WaitForSnapshot> GetWaitFors(this IResource resource)
     {
         if (resource.TryGetAnnotationsOfType<WaitAnnotation>(out var annotations))
         {
-            return annotations.Select(a => a.Resource.Name).ToImmutableArray();
+            return annotations.Select(a => new WaitForSnapshot(a.Resource.Name, a.WaitType, a.ExitCode)).ToImmutableArray();
         }
 
         return [];

@@ -56,7 +56,7 @@ internal sealed class DashboardServiceData : IAsyncDisposable
                         _ => HealthStateKind.Unknown,
                     } : null,
                     Commands = snapshot.Commands,
-                    WaitForResourceNames = snapshot.WaitForResourceNames
+                    WaitFors = snapshot.WaitFors
                 };
             }
 

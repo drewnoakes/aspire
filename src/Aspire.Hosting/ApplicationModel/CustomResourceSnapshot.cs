@@ -69,7 +69,7 @@ public sealed record CustomResourceSnapshot
     /// <summary>
     /// Gets the set of resource names that this resource will wait for. May be empty.
     /// </summary>
-    public ImmutableArray<string> WaitForResourceNames { get; init; } = [];
+    public ImmutableArray<WaitForSnapshot> WaitFors { get; init; } = [];
 }
 
 /// <summary>
@@ -106,11 +106,19 @@ public sealed record UrlSnapshot(string Name, string Url, bool IsInternal);
 /// <summary>
 /// A snapshot of a volume, mounted to a container.
 /// </summary>
-/// <param name="Source">The name of the volume. Can be <c>null</c> if the mount is an anonymous volume.</param>
+/// <param name="Source">The name of the volume. Can be <see langword="null"/> if the mount is an anonymous volume.</param>
 /// <param name="Target">The target of the mount.</param>
 /// <param name="MountType">Gets the mount type, such as <see cref="VolumeMountType.Bind"/> or <see cref="VolumeMountType.Volume"/></param>
 /// <param name="IsReadOnly">Whether the volume mount is read-only or not.</param>
 public sealed record VolumeSnapshot(string? Source, string Target, string MountType, bool IsReadOnly);
+
+/// <summary>
+/// A snapshot of a resource that another resource is waiting for.
+/// </summary>
+/// <param name="ResourceName">The name of the resource being waited on.</param>
+/// <param name="WaitType">What specific state is being awaited.</param>
+/// <param name="ExitCode">The exit code that the resource must return for the wait to be satisfied.</param>
+public sealed record WaitForSnapshot(string ResourceName, WaitType WaitType, int ExitCode);
 
 /// <summary>
 /// A snapshot of the resource property.

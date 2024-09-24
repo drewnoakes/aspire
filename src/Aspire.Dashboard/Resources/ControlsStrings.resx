@@ -299,6 +299,9 @@
   <data name="ResourceDetailsVolumesHeader" xml:space="preserve">
     <value>Volumes</value>
   </data>
+  <data name="ResourceWaitsForHeader" xml:space="preserve">
+    <value>Waits For</value>
+  </data>
   <data name="ResourceDetailsResourceHeader" xml:space="preserve">
     <value>Resource</value>
   </data>

@@ -61,9 +61,22 @@ partial class Resource
             resource.Commands.Add(new ResourceCommand { CommandType = command.Type, DisplayName = command.DisplayName, IconName = command.IconName ?? string.Empty, IconVariant = MapIconVariant(command.IconVariant), IsHighlighted = command.IsHighlighted, State = MapCommandState(command.State) });
         }
 
-        resource.WaitsFor.AddRange(snapshot.WaitForResourceNames);
+        foreach (var waitFor in snapshot.WaitFors)
+        {
+            resource.WaitFors.Add(new WaitFor { ResourceName = waitFor.ResourceName, WaitType = MapWaitType(waitFor.WaitType), ExitCode = waitFor.ExitCode });
+        }
 
         return resource;
+
+        static WaitType MapWaitType(Hosting.ApplicationModel.WaitType waitType)
+        {
+            return waitType switch
+            {
+                Hosting.ApplicationModel.WaitType.WaitUntilHealthy => WaitType.WaitUntilHealthy,
+                Hosting.ApplicationModel.WaitType.WaitForCompletion => WaitType.WaitForCompletion,
+                _ => throw new InvalidOperationException("Unknown wait type: " + waitType),
+            };
+        }
     }
 
     private static IconVariant MapIconVariant(Hosting.ApplicationModel.IconVariant? iconVariant)

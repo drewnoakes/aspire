@@ -57,6 +57,10 @@ public partial class ResourceDetails
             .Where(vm => (_showAll || vm.KnownProperty != null) && vm.MatchesFilter(_filter))
             .AsQueryable();
 
+    private bool _isVolumesExpanded;
+    private bool _isEnvironmentVariablesExpanded;
+    private bool _isEndpointsExpanded;
+
     private string _filter = "";
     private bool _isMaskAllChecked = true;
 
@@ -67,6 +71,11 @@ public partial class ResourceDetails
         if (!ReferenceEquals(Resource, _resource))
         {
             _resource = Resource;
+
+            // Collapse details sections when they have no data.
+            _isEndpointsExpanded = GetEndpoints().Any();
+            _isEnvironmentVariablesExpanded = _resource.Environment.Any();
+            _isVolumesExpanded = _resource.Volumes.Any();
 
             foreach (var item in SensitiveGridItems)
             {

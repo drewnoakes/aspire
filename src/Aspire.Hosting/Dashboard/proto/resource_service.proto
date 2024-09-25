@@ -222,8 +222,13 @@ message Resource {
     // The aggregate health state of the resource
     optional HealthStateKind health_state = 16;
 
+    // The resource start time.
+    optional google.protobuf.Timestamp started_at = 17;
+    // The resource stop time.
+    optional google.protobuf.Timestamp stopped_at = 18;
+
     // Conditions that other resources must satisfy before this resource can start. May be empty.
-    repeated WaitFor wait_fors = 17;
+    repeated WaitFor wait_fors = 19;
 }
 
 ////////////////////////////////////////////

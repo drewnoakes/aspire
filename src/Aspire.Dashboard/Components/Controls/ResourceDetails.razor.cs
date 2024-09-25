@@ -60,6 +60,7 @@ public partial class ResourceDetails
     private bool _isVolumesExpanded;
     private bool _isEnvironmentVariablesExpanded;
     private bool _isEndpointsExpanded;
+    private bool _isWaitsForExpanded;
 
     private string _filter = "";
     private bool _isMaskAllChecked = true;
@@ -76,6 +77,7 @@ public partial class ResourceDetails
             _isEndpointsExpanded = GetEndpoints().Any();
             _isEnvironmentVariablesExpanded = _resource.Environment.Any();
             _isVolumesExpanded = _resource.Volumes.Any();
+            _isWaitsForExpanded = _resource.WaitFors.Any();
 
             foreach (var item in SensitiveGridItems)
             {

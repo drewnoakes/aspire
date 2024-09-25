@@ -108,7 +108,7 @@
                     </PropertyGrid>
                 </FluentAccordionItem>
             }
-            <FluentAccordionItem Heading="@ControlStringsLoc[nameof(ControlsStrings.ResourceWaitsForHeader)]" Expanded="true">
+            <FluentAccordionItem Heading="@ControlStringsLoc[nameof(ControlsStrings.ResourceWaitsForHeader)]" Expanded="@_isWaitsForExpanded">
                 <div slot="end">
                     <FluentBadge Appearance="Appearance.Neutral" Circular="true">
                         @FilteredWaitsFor.Count()

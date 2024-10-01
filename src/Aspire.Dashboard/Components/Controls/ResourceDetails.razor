@@ -122,11 +122,11 @@
                     <ExtraValueContent>
                         @if (context.Description is not (null or ""))
                         {
-                            <span>@context.Description</span>
+                            <div class="health-check-description">@context.Description</div>
                         }
                         @if (context.Exception is not (null or ""))
                         {
-                            <span>@context.Exception</span>
+                            <div class="health-check-exception">@context.Exception</div>
                         }
                     </ExtraValueContent>
                 </PropertyGrid>

@@ -11,3 +11,14 @@
 ::deep.resource-details-layout > fluent-toolbar {
     grid-area: toolbar;
 }
+
+::deep.health-check-exception {
+    font-family: monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+::deep.health-check-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

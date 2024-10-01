@@ -8,7 +8,6 @@ using Aspire.Dashboard.Otlp.Storage;
 using Aspire.Dashboard.Resources;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Localization;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -72,7 +71,7 @@ public partial class StateColumnDisplay
                 return string.Format(CultureInfo.CurrentCulture, Loc[Columns.WaitingMultipleResourcesStateToolTip], string.Join(", ", resource.WaitFors.Select(r => r.ResourceName)));
             }
         }
-        else if (resource.KnownState is KnownResourceState.Running && !resource.HealthReports.All(r => r.HealthStatus is HealthStatus.Healthy))
+        else if (resource.KnownState is KnownResourceState.Running && !resource.IsHealthy)
         {
             // Resource is running but not healthy (initializing).
             return Loc[nameof(Columns.RunningAndUnhealthyResourceStateToolTip)];

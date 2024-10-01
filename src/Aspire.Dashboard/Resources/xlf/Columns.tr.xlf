@@ -17,16 +17,6 @@
         <target state="translated">Başlatılıyor...</target>
         <note />
       </trans-unit>
-      <trans-unit id="InitializingResourceStateName">
-        <source>Initializing</source>
-        <target state="new">Initializing</target>
-        <note>This term reflects the state of a resource that is running, but is not yet ready to receive requests.</note>
-      </trans-unit>
-      <trans-unit id="InitializingResourceStateToolTip">
-        <source>Resource is running but not yet ready to receive requests.</source>
-        <target state="new">Resource is running but not yet ready to receive requests.</target>
-        <note>Tool tip text explaining that the resource is running but not yet ready to receive requests.</note>
-      </trans-unit>
       <trans-unit id="LogMessageColumnExceptionDetailsTitle">
         <source>Exception details</source>
         <target state="translated">Özel durum ayrıntıları</target>
@@ -46,6 +36,16 @@
         <source>Process ID: {0}</source>
         <target state="translated">İşlem kimliği: {0}</target>
         <note>{0} is a numeric id</note>
+      </trans-unit>
+      <trans-unit id="RunningAndUnhealthyResourceStateName">
+        <source>Running (Unhealthy)</source>
+        <target state="new">Running (Unhealthy)</target>
+        <note>This term reflects the state of a resource that is running, but is not yet ready to receive requests.</note>
+      </trans-unit>
+      <trans-unit id="RunningAndUnhealthyResourceStateToolTip">
+        <source>Resource is running but not yet ready to receive requests.</source>
+        <target state="new">Resource is running but not yet ready to receive requests.</target>
+        <note>Tool tip text explaining that the resource is running but not yet ready to receive requests.</note>
       </trans-unit>
       <trans-unit id="SourceColumnDisplayContainerArgsTitle">
         <source>Container args</source>

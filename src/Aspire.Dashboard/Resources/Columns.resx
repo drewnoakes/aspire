@@ -189,11 +189,11 @@
   <data name="EndpointsColumnDisplayOverflowTitle" xml:space="preserve">
     <value>Endpoints</value>
   </data>
-  <data name="InitializingResourceStateName" xml:space="preserve">
-    <value>Initializing</value>
+  <data name="RunningAndUnhealthyResourceStateName" xml:space="preserve">
+    <value>Running (Unhealthy)</value>
     <comment>This term reflects the state of a resource that is running, but is not yet ready to receive requests.</comment>
   </data>
-  <data name="InitializingResourceStateToolTip" xml:space="preserve">
+  <data name="RunningAndUnhealthyResourceStateToolTip" xml:space="preserve">
     <value>Resource is running but not yet ready to receive requests.</value>
     <comment>Tool tip text explaining that the resource is running but not yet ready to receive requests.</comment>
   </data>

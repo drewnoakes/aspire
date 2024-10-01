@@ -75,7 +75,7 @@ public partial class StateColumnDisplay
         else if (resource.KnownState is KnownResourceState.Running && !resource.HealthReports.All(r => r.HealthStatus is HealthStatus.Healthy))
         {
             // Resource is running but not healthy (initializing).
-            return Loc[nameof(Columns.InitializingResourceStateToolTip)];
+            return Loc[nameof(Columns.RunningAndUnhealthyResourceStateToolTip)];
         }
 
         return null;
@@ -141,7 +141,7 @@ public partial class StateColumnDisplay
         var text = Resource switch
         {
             { State: null or "" } => Loc[Columns.UnknownStateLabel],
-            { KnownState: KnownResourceState.Running, IsHealthy: false } => Loc[Columns.InitializingResourceStateName],
+            { KnownState: KnownResourceState.Running, IsHealthy: false } => Loc[Columns.RunningAndUnhealthyResourceStateName],
             _ => Resource.State.Humanize()
         };
 

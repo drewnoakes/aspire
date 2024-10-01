@@ -88,24 +88,6 @@ namespace Aspire.Dashboard.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Initializing.
-        /// </summary>
-        public static string InitializingResourceStateName {
-            get {
-                return ResourceManager.GetString("InitializingResourceStateName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resource is running but not yet ready to receive requests..
-        /// </summary>
-        public static string InitializingResourceStateToolTip {
-            get {
-                return ResourceManager.GetString("InitializingResourceStateToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Exception details.
         /// </summary>
         public static string LogMessageColumnExceptionDetailsTitle {
@@ -138,6 +120,24 @@ namespace Aspire.Dashboard.Resources {
         public static string ResourceNameDisplayProcessIdText {
             get {
                 return ResourceManager.GetString("ResourceNameDisplayProcessIdText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Running (Unhealthy).
+        /// </summary>
+        public static string RunningAndUnhealthyResourceStateName {
+            get {
+                return ResourceManager.GetString("RunningAndUnhealthyResourceStateName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resource is running but not yet ready to receive requests..
+        /// </summary>
+        public static string RunningAndUnhealthyResourceStateToolTip {
+            get {
+                return ResourceManager.GetString("RunningAndUnhealthyResourceStateToolTip", resourceCulture);
             }
         }
         

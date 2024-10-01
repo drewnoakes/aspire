@@ -720,7 +720,8 @@ internal sealed class ApplicationExecutor(ILogger<ApplicationExecutor> logger,
             CreationTimeStamp = executable.Metadata.CreationTimestamp?.ToUniversalTime(),
             StartTimeStamp = executable.Status?.StartupTimestamp?.ToUniversalTime(),
             StopTimeStamp = executable.Status?.FinishTimestamp?.ToUniversalTime(),
-            Urls = urls
+            Urls = urls,
+            WaitFors = waitFors
         };
     }
 

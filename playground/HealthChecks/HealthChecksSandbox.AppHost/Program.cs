@@ -1,6 +1,7 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System.Collections.Immutable;
 using Aspire.Hosting.Lifecycle;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
@@ -10,14 +11,15 @@ builder.Services.TryAddLifecycleHook<TestResourceLifecycleHook>();
 
 var ex = GetException();
 
-var healthy = AddTestResource("healthy", HealthStatus.Healthy, "I'm fine, thanks for asking.", exception: null);
-var unhealthy = AddTestResource("unhealthy", HealthStatus.Unhealthy, "I can't do that, Dave.", exception: ex.ToString());
-var degraded = AddTestResource("degraded", HealthStatus.Degraded, "Had better days.", exception: ex.ToString());
+AddTestResource("healthy", HealthStatus.Healthy, "I'm fine, thanks for asking.");
+AddTestResource("unhealthy", HealthStatus.Unhealthy, "I can't do that, Dave.", exception: ex.ToString());
+AddTestResource("degraded", HealthStatus.Degraded, "Had better days.", exception: ex.ToString(), waitFors: [ new("healthy", WaitType.WaitUntilHealthy, 0) ]);
 
-AddTestResource("frontend", HealthStatus.Healthy, null, null)
-    .WaitFor(healthy)
-    .WaitFor(unhealthy)
-    .WaitFor(degraded);
+AddTestResource("frontend", HealthStatus.Healthy, waitFors: [
+    new("healthy", WaitType.WaitUntilHealthy, 0),
+    new("unhealthy", WaitType.WaitUntilHealthy, 0),
+    new("degraded", WaitType.WaitUntilHealthy, 0)
+]);
 
 #if !SKIP_DASHBOARD_REFERENCE
 // This project is only added in playground projects to support development/debugging
@@ -43,7 +45,7 @@ static Exception GetException()
     }
 }
 
-IResourceBuilder<TestResource> AddTestResource(string name, HealthStatus status, string? description, string? exception)
+IResourceBuilder<TestResource> AddTestResource(string name, HealthStatus status, string? description = null, string? exception = null, ImmutableArray<WaitForSnapshot>? waitFors = null)
 {
     return builder
         .AddResource(new TestResource(name))
@@ -52,7 +54,8 @@ IResourceBuilder<TestResource> AddTestResource(string name, HealthStatus status,
             ResourceType = "Test Resource",
             State = "Starting",
             Properties = [],
-            HealthReports = [new HealthReportSnapshot("test_check", status, description, exception)]
+            HealthReports = [new HealthReportSnapshot("test_check", status, description, exception)],
+            WaitFors = waitFors ?? []
         })
         .ExcludeFromManifest();
 }

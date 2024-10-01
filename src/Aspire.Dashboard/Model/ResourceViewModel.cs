@@ -6,6 +6,7 @@ using System.Collections.Frozen;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Globalization;
+using System.Text;
 using Aspire.Dashboard.Components.Controls;
 using Aspire.Dashboard.Extensions;
 using Aspire.Dashboard.Utils;
@@ -259,9 +260,38 @@ public sealed record class WaitForViewModel(string ResourceName, WaitType WaitTy
 
 public sealed record class HealthReportViewModel(string Name, HealthStatus HealthStatus, string? Description, string? Exception) : IPropertyGridItem
 {
+    private readonly string _compositeValue = ComposeFullValue(HealthStatus, Description, Exception);
+
     string? IPropertyGridItem.Name => Name;
 
     string? IPropertyGridItem.Value => HealthStatus.ToString();
+
+    string? IPropertyGridItem.ValueToCopy => _compositeValue;
+
+    string? IPropertyGridItem.ValueToVisualize => _compositeValue;
+
+    private static string ComposeFullValue(HealthStatus HealthStatus, string? Description, string? Exception)
+    {
+        StringBuilder builder = new();
+
+        builder.Append(HealthStatus.ToString());
+
+        if (!string.IsNullOrWhiteSpace(Description))
+        {
+            builder.AppendLine();
+            builder.AppendLine();
+            builder.Append(Description);
+        }
+
+        if (!string.IsNullOrWhiteSpace(Exception))
+        {
+            builder.AppendLine();
+            builder.AppendLine();
+            builder.Append(Exception);
+        }
+
+        return builder.ToString();
+    }
 }
 
 public enum WaitType

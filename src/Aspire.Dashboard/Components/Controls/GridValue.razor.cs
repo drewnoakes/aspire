@@ -32,6 +32,12 @@ public partial class GridValue
     public string? ValueToCopy { get; set; }
 
     /// <summary>
+    /// If set, this value is visualized rather than <see cref="Value"/>.
+    /// </summary>
+    [Parameter]
+    public string? ValueToVisualize { get; set; }
+
+    /// <summary>
     /// Determines whether or not masking support is enabled for this value
     /// </summary>
     [Parameter]

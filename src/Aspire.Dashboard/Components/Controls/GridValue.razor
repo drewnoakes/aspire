@@ -55,8 +55,8 @@
             </FluentMenuItem>
 
             <FluentMenuItem
-                Disabled="@(Value is null)"
-                AdditionalAttributes="@FluentUIExtensions.GetOpenTextVisualizerAdditionalAttributes(Value!, !string.IsNullOrEmpty(TextVisualizerTitle) ? TextVisualizerTitle : ValueDescription)">
+                Disabled="@(ValueToVisualize is null && Value is null)"
+                AdditionalAttributes="@FluentUIExtensions.GetOpenTextVisualizerAdditionalAttributes(ValueToVisualize ?? Value!, !string.IsNullOrEmpty(TextVisualizerTitle) ? TextVisualizerTitle : ValueDescription)">
                 <span slot="start">
                     <FluentIcon Style="display:inline; vertical-align: text-bottom" Icon="Icons.Regular.Size16.Open" Slot="start"/>
                 </span>

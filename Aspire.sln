@@ -1,4 +1,3 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -625,9 +624,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redis.AppHost", "playground\Redis\Redis.AppHost\Redis.AppHost.csproj", "{6249A193-3BF4-4FFB-AB81-6590A8318889}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.Hosting.Analyzers.Tests", "tests\Aspire.Hosting.Analyzers.Tests\Aspire.Hosting.Analyzers.Tests.csproj", "{F21F921E-1930-4BD5-B665-5EF1B82BD4D2}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.Hosting.Sdk.Tests", "tests\Aspire.Hosting.Sdk.Tests\Aspire.Hosting.Sdk.Tests.csproj", "{AEF07BC6-76D8-4A45-89D5-54FC4483863F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.RuntimeIdentifier.Tool", "src\Aspire.Hosting.Sdk\Aspire.RuntimeIdentifier.Tool\Aspire.RuntimeIdentifier.Tool.csproj", "{FF2895FC-A613-43DC-96B8-E5DFA69125CA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HealthChecks", "HealthChecks", "{B7345F72-712F-436C-AE18-CAF7CDD4A990}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthChecksSandbox.AppHost", "playground\HealthChecks\HealthChecksSandbox.AppHost\HealthChecksSandbox.AppHost.csproj", "{042DD8C6-A26C-4B06-80A1-FE7F8659C5BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1655,6 +1659,10 @@ Global
 		{FF2895FC-A613-43DC-96B8-E5DFA69125CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF2895FC-A613-43DC-96B8-E5DFA69125CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF2895FC-A613-43DC-96B8-E5DFA69125CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{042DD8C6-A26C-4B06-80A1-FE7F8659C5BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{042DD8C6-A26C-4B06-80A1-FE7F8659C5BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{042DD8C6-A26C-4B06-80A1-FE7F8659C5BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{042DD8C6-A26C-4B06-80A1-FE7F8659C5BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1958,6 +1966,8 @@ Global
 		{F21F921E-1930-4BD5-B665-5EF1B82BD4D2} = {830A89EC-4029-4753-B25A-068BAE37DEC7}
 		{AEF07BC6-76D8-4A45-89D5-54FC4483863F} = {4981B3A5-4AFD-4191-BF7D-8692D9783D60}
 		{FF2895FC-A613-43DC-96B8-E5DFA69125CA} = {F534D4F8-5E3A-42FC-BCD7-4C2D6060F9C8}
+		{B7345F72-712F-436C-AE18-CAF7CDD4A990} = {D173887B-AF42-4576-B9C1-96B9E9B3D9C0}
+		{042DD8C6-A26C-4B06-80A1-FE7F8659C5BC} = {B7345F72-712F-436C-AE18-CAF7CDD4A990}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6DCEDFEC-988E-4CB3-B45B-191EB5086E0C}

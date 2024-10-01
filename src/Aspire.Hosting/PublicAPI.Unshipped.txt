@@ -1,6 +1,7 @@
 #nullable enable
 Aspire.Hosting.ApplicationModel.CustomResourceSnapshot.HealthReports.get -> System.Collections.Immutable.ImmutableArray<Aspire.Hosting.ApplicationModel.HealthReportSnapshot!>
 Aspire.Hosting.ApplicationModel.CustomResourceSnapshot.HealthReports.init -> void
+Aspire.Hosting.ApplicationModel.CustomResourceSnapshot.HealthStatus.get -> Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus
 Aspire.Hosting.ApplicationModel.CustomResourceSnapshot.IsHealthy.get -> bool
 Aspire.Hosting.ApplicationModel.EndpointNameAttribute
 Aspire.Hosting.ApplicationModel.EndpointNameAttribute.EndpointNameAttribute() -> void

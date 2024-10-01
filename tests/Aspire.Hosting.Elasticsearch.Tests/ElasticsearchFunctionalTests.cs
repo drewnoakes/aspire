@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Polly;
 using Xunit;
 using Xunit.Abstractions;
+using HealthStatus = Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus;
 
 namespace Aspire.Hosting.Elasticsearch.Tests;
 
@@ -234,7 +235,7 @@ public class ElasticsearchFunctionalTests(ITestOutputHelper testOutputHelper)
 
         healthCheckTcs.SetResult(HealthCheckResult.Healthy());
 
-        await rns.WaitForResourceAsync(resource.Resource.Name, re => re.Snapshot.IsHealthy, cts.Token);
+        await rns.WaitForResourceAsync(resource.Resource.Name, re => re.Snapshot.HealthStatus == HealthStatus.Healthy, cts.Token);
 
         await rns.WaitForResourceAsync(dependentResource.Resource.Name, KnownResourceStates.Running, cts.Token);
 

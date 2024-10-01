@@ -81,9 +81,10 @@ public sealed record CustomResourceSnapshot
     public ImmutableArray<WaitForSnapshot> WaitFors { get; init; } = [];
 
     /// <summary>
-    /// Gets whether the resource is healthy or not.
+    /// Gets the aggregate health status of the resource.
+    /// Unlike <see cref="HealthReports"/>, this value may be influenced by a parent resource.
     /// </summary>
-    public bool IsHealthy => HealthReports.All(r => r.Status == HealthStatus.Healthy);
+    public HealthStatus HealthStatus => HealthReports.MaxBy(r => r.Status)?.Status ?? HealthStatus.Healthy;
 }
 
 /// <summary>

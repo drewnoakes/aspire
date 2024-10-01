@@ -1,6 +1,8 @@
-﻿@{
+﻿@using Aspire.Dashboard.Model
+
+@{
     var vm = GetStateViewModel();
-    var waitsFor = Resource.WaitFors.IsEmpty ? null : string.Join(" ", Resource.WaitFors.Select(w => w.ResourceName));
+    var waitsFor = Resource.KnownState is KnownResourceState.Waiting && Resource.WaitFors.IsEmpty ? null : string.Join(" ", Resource.WaitFors.Select(w => w.ResourceName));
 }
 
 <div

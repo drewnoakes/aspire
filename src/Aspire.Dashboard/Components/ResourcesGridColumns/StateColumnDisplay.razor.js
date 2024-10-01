@@ -4,15 +4,11 @@ export function addWaitForMouseEventListeners() {
         .forEach(cell => {
             if (!cell.areMouseEventsHooked) {
                 cell.addEventListener('mouseenter', function (event) {
-                    //if (event.target && event.target.classList.contains('state-column-cell')) {
-                        highlightRelatedElements(event.target);
-                    //}
+                    highlightRelatedElements(event.target);
                 });
 
                 cell.addEventListener('mouseleave', function (event) {
-                    //if (event.target && event.target.classList.contains('state-column-cell')) {
-                        removeHighlightRelatedElements(event.target);
-                    //}
+                    removeHighlightRelatedElements(event.target);
                 });
 
                 cell.areMouseEventsHooked = true;

@@ -54,21 +54,23 @@ public partial class StateColumnDisplay
                 // Process completed unexpectedly, hence the non-zero code. This is almost certainly an error, so warn users.
                 return string.Format(CultureInfo.CurrentCulture, Loc[Columns.StateColumnResourceExitedUnexpectedly], resource.ResourceType, exitCode);
             }
-            else if (resource.IsFinishedState())
-            {
-                // Process completed successfully.
-                return string.Format(CultureInfo.CurrentCulture, Loc[Columns.StateColumnResourceExited], resource.ResourceType);
-            }
             else
             {
                 // Process completed, which may not have been unexpected.
                 return string.Format(CultureInfo.CurrentCulture, Loc[Columns.StateColumnResourceExited], resource.ResourceType);
             }
         }
-        else if (resource.KnownState is KnownResourceState.Waiting)
+        else if (resource.KnownState is KnownResourceState.Waiting && resource.WaitFors.Length is not 0)
         {
             // Resource is waiting.
-            return Loc[Columns.WaitingResourceStateToolTip];
+            if (resource.WaitFors.Length is 1)
+            {
+                return string.Format(CultureInfo.CurrentCulture, Loc[Columns.WaitingSingleResourceStateToolTip], resource.WaitFors[0].ResourceName);
+            }
+            else
+            {
+                return string.Format(CultureInfo.CurrentCulture, Loc[Columns.WaitingMultipleResourcesStateToolTip], string.Join(", ", resource.WaitFors.Select(r => r.ResourceName)));
+            }
         }
         else if (resource.KnownState is KnownResourceState.Running && !resource.HealthReports.All(r => r.HealthStatus is HealthStatus.Healthy))
         {

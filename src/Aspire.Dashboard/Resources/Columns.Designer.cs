@@ -268,11 +268,20 @@ namespace Aspire.Dashboard.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Waiting for another resource to be ready before starting..
+        ///   Looks up a localized string similar to Waiting for resources to be ready before starting: {0}.
         /// </summary>
-        public static string WaitingResourceStateToolTip {
+        public static string WaitingMultipleResourcesStateToolTip {
             get {
-                return ResourceManager.GetString("WaitingResourceStateToolTip", resourceCulture);
+                return ResourceManager.GetString("WaitingMultipleResourcesStateToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting for resource &apos;{0}&apos; to be ready before starting..
+        /// </summary>
+        public static string WaitingSingleResourceStateToolTip {
+            get {
+                return ResourceManager.GetString("WaitingSingleResourceStateToolTip", resourceCulture);
             }
         }
     }

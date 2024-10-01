@@ -82,8 +82,10 @@ public sealed record CustomResourceSnapshot
 
     /// <summary>
     /// Gets the aggregate health status of the resource.
-    /// Unlike <see cref="HealthReports"/>, this value may be influenced by a parent resource.
     /// </summary>
+    /// <remarks>
+    /// This property's value is derived from <see cref="HealthReports"/> and is provided for convenience.
+    /// </remarks>
     public HealthStatus HealthStatus => HealthReports.MaxBy(r => r.Status)?.Status ?? HealthStatus.Healthy;
 }
 

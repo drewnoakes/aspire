@@ -61,15 +61,6 @@ namespace Aspire.Dashboard.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (All).
-        /// </summary>
-        public static string All {
-            get {
-                return ResourceManager.GetString("All", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to application.
         /// </summary>
         public static string ApplicationLower {
@@ -322,6 +313,42 @@ namespace Aspire.Dashboard.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (All).
+        /// </summary>
+        public static string LabelAll {
+            get {
+                return ResourceManager.GetString("LabelAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (Empty).
+        /// </summary>
+        public static string LabelEmpty {
+            get {
+                return ResourceManager.GetString("LabelEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (None).
+        /// </summary>
+        public static string LabelNone {
+            get {
+                return ResourceManager.GetString("LabelNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (Unset).
+        /// </summary>
+        public static string LabelUnset {
+            get {
+                return ResourceManager.GetString("LabelUnset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
         public static string Loading {
@@ -417,15 +444,6 @@ namespace Aspire.Dashboard.Resources {
         public static string NameColumnHeader {
             get {
                 return ResourceManager.GetString("NameColumnHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to (None).
-        /// </summary>
-        public static string None {
-            get {
-                return ResourceManager.GetString("None", resourceCulture);
             }
         }
         

@@ -109,7 +109,7 @@ public partial class StateColumnDisplay
                 color = Color.Warning;
             }
         }
-        else if (Resource.IsUnusableTransitoryState())
+        else if (Resource.IsUnusableTransitoryState() || Resource.IsUnknownState())
         {
             icon = new Icons.Filled.Size16.CircleHint();
             color = Color.Info;

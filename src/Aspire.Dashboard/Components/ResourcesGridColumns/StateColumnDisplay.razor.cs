@@ -82,7 +82,6 @@ public partial class StateColumnDisplay
     /// <summary>
     /// Gets data needed to populate the content of the state column.
     /// </summary>
-    /// <returns></returns>
     private ResourceStateViewModel GetStateViewModel()
     {
         Icon icon;

@@ -33,9 +33,9 @@ public static class ModelTestHelpers
             State = state?.ToString(),
             KnownState = state,
             StateStyle = null,
-            ReadinessState = ReadinessState.Ready,
             Commands = [],
-            WaitFors = []
+            WaitFors = [],
+            HealthReports = []
         };
     }
 }

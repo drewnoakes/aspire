@@ -20,11 +20,6 @@ partial class Resource
             StateStyle = snapshot.StateStyle ?? "",
         };
 
-        if (snapshot.HealthState is HealthStateKind healthState)
-        {
-            resource.HealthState = healthState;
-        }
-
         if (snapshot.CreationTimeStamp.HasValue)
         {
             resource.CreatedAt = Timestamp.FromDateTime(snapshot.CreationTimeStamp.Value.ToUniversalTime());
@@ -71,6 +66,11 @@ partial class Resource
             resource.Commands.Add(new ResourceCommand { CommandType = command.Type, DisplayName = command.DisplayName, IconName = command.IconName ?? string.Empty, IconVariant = MapIconVariant(command.IconVariant), IsHighlighted = command.IsHighlighted, State = MapCommandState(command.State) });
         }
 
+        foreach (var report in snapshot.HealthReports)
+        {
+            resource.HealthReports.Add(new HealthReport { Key = report.Name, Description = report.Description ?? "", Status = MapHealthStatus(report.Status), Exception = report.Exception ?? "" });
+        }
+
         foreach (var waitFor in snapshot.WaitFors)
         {
             resource.WaitFors.Add(new WaitFor { ResourceName = waitFor.ResourceName, WaitType = MapWaitType(waitFor.WaitType), ExitCode = waitFor.ExitCode });
@@ -85,6 +85,17 @@ partial class Resource
                 Hosting.ApplicationModel.WaitType.WaitUntilHealthy => WaitType.WaitUntilHealthy,
                 Hosting.ApplicationModel.WaitType.WaitForCompletion => WaitType.WaitForCompletion,
                 _ => throw new InvalidOperationException("Unknown wait type: " + waitType),
+            };
+        }
+
+        static HealthStatus MapHealthStatus(Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus healthStatus)
+        {
+            return healthStatus switch
+            {
+                Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Healthy => HealthStatus.Healthy,
+                Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Degraded => HealthStatus.Degraded,
+                Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy => HealthStatus.Unhealthy,
+                _ => throw new InvalidOperationException("Unknown health status: " + healthStatus),
             };
         }
     }
@@ -110,5 +121,4 @@ partial class Resource
             _ => throw new InvalidOperationException("Unexpected state: " + state)
         };
     }
-
 }

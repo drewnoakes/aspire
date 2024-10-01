@@ -10,6 +10,7 @@ using Aspire.Dashboard.Components.Controls;
 using Aspire.Dashboard.Extensions;
 using Aspire.Dashboard.Utils;
 using Google.Protobuf.WellKnownTypes;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace Aspire.Dashboard.Model;
@@ -23,7 +24,6 @@ public sealed class ResourceViewModel
     public required string Uid { get; init; }
     public required string? State { get; init; }
     public required string? StateStyle { get; init; }
-    public required ReadinessState ReadinessState { get; init; }
     public required DateTime? CreationTimeStamp { get; init; }
     public required DateTime? StartTimeStamp { get; init; }
     public required DateTime? StopTimeStamp { get; init; }
@@ -33,7 +33,10 @@ public sealed class ResourceViewModel
     public required FrozenDictionary<string, ResourcePropertyViewModel> Properties { get; init; }
     public required ImmutableArray<CommandViewModel> Commands { get; init; }
     public required ImmutableArray<WaitForViewModel> WaitFors { get; init; }
+    public required ImmutableArray<HealthReportViewModel> HealthReports { get; init; }
     public KnownResourceState? KnownState { get; init; }
+
+    internal bool IsHealthy => HealthReports.All(report => report.HealthStatus == HealthStatus.Healthy);
 
     internal bool MatchesFilter(string filter)
     {
@@ -65,13 +68,6 @@ public sealed class ResourceViewModel
 
         return resource.DisplayName;
     }
-}
-
-public enum ReadinessState
-{
-    Unknown,
-    NotReady,
-    Ready
 }
 
 [DebuggerDisplay("CommandType = {CommandType}, DisplayName = {DisplayName}")]
@@ -259,6 +255,13 @@ public sealed record class WaitForViewModel(string ResourceName, WaitType WaitTy
     string? IPropertyGridItem.Name => ResourceName;
 
     string? IPropertyGridItem.Value => WaitType.ToString();
+}
+
+public sealed record class HealthReportViewModel(string Name, HealthStatus HealthStatus, string? Description, string? Exception) : IPropertyGridItem
+{
+    string? IPropertyGridItem.Name => Name;
+
+    string? IPropertyGridItem.Value => HealthStatus.ToString();
 }
 
 public enum WaitType

@@ -166,7 +166,18 @@ message WaitFor {
     int32 exit_code = 3;
 }
 
-enum HealthStateKind {
+message HealthReport {
+    // The health status of the resource.
+    HealthStatus status = 1;
+    // Identifies the health check that produced this report.
+    string key = 2;
+    // The reason for the health status.
+    string description = 3;
+    // Any exception details.
+    string exception = 4;
+}
+
+enum HealthStatus {
     UNKNOWN = 0;
     HEALTHY = 1;
     UNHEALTHY = 2;
@@ -219,8 +230,8 @@ message Resource {
     // The set of volumes mounted to the resource. Only applies to containers.
     repeated Volume volumes = 15;
 
-    // The aggregate health state of the resource
-    optional HealthStateKind health_state = 16;
+    // Reports from health checks, about this resource.
+    repeated HealthReport health_reports = 16;
 
     // The resource start time.
     optional google.protobuf.Timestamp started_at = 17;

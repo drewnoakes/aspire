@@ -8,6 +8,7 @@ using Aspire.Dashboard.Otlp.Storage;
 using Aspire.Dashboard.Resources;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Localization;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -69,9 +70,9 @@ public partial class StateColumnDisplay
             // Resource is waiting.
             return Loc[Columns.WaitingResourceStateToolTip];
         }
-        else if (resource.KnownState is KnownResourceState.Running && resource.ReadinessState is ReadinessState.NotReady)
+        else if (resource.KnownState is KnownResourceState.Running && !resource.HealthReports.All(r => r.HealthStatus is HealthStatus.Healthy))
         {
-            // Resource is running but not ready (initializing).
+            // Resource is running but not healthy (initializing).
             return Loc[nameof(Columns.InitializingResourceStateToolTip)];
         }
 
@@ -131,18 +132,15 @@ public partial class StateColumnDisplay
         }
         else
         {
-            (icon, color) = Resource.ReadinessState switch
-            {
-                ReadinessState.NotReady => ((Icon)new Icons.Regular.Size16.CheckmarkCircleWarning(), Color.Neutral),
-                // Unknown state is treated as ready state (we don't know if it's ready or not).
-                _ => (new Icons.Filled.Size16.CheckmarkCircle(), Color.Success),
-            };
+            (icon, color) = Resource.IsHealthy
+                ? (new Icons.Filled.Size16.CheckmarkCircle(), Color.Success)
+                : ((Icon)new Icons.Regular.Size16.CheckmarkCircleWarning(), Color.Neutral);
         }
 
         var text = Resource switch
         {
             { State: null or "" } => Loc[Columns.UnknownStateLabel],
-            { KnownState: KnownResourceState.Running, ReadinessState: ReadinessState.NotReady } => Loc[Columns.InitializingResourceStateName],
+            { KnownState: KnownResourceState.Running, IsHealthy: false } => Loc[Columns.InitializingResourceStateName],
             _ => Resource.State.Humanize()
         };
 

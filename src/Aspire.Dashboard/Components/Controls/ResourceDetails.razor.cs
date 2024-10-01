@@ -52,6 +52,14 @@ public partial class ResourceDetails
             .Where(vm => vm.ResourceName?.Contains(_filter, StringComparison.CurrentCultureIgnoreCase) == true)
             .AsQueryable();
 
+    private IQueryable<HealthReportViewModel> FilteredHealthReports =>
+        Resource.HealthReports
+            .Where(vm =>
+                vm.Name?.Contains(_filter, StringComparison.CurrentCultureIgnoreCase) == true ||
+                vm.Description?.Contains(_filter, StringComparison.CurrentCultureIgnoreCase) == true ||
+                vm.Exception?.Contains(_filter, StringComparison.CurrentCultureIgnoreCase) == true)
+            .AsQueryable();
+
     private IQueryable<ResourcePropertyViewModel> FilteredResourceProperties =>
         GetResourceProperties(ordered: true)
             .Where(vm => (_showAll || vm.KnownProperty != null) && vm.MatchesFilter(_filter))
@@ -61,6 +69,7 @@ public partial class ResourceDetails
     private bool _isEnvironmentVariablesExpanded;
     private bool _isEndpointsExpanded;
     private bool _isWaitsForExpanded;
+    private bool _isHealthChecksExpanded;
 
     private string _filter = "";
     private bool _isMaskAllChecked = true;
@@ -78,6 +87,7 @@ public partial class ResourceDetails
             _isEnvironmentVariablesExpanded = _resource.Environment.Any();
             _isVolumesExpanded = _resource.Volumes.Any();
             _isWaitsForExpanded = _resource.WaitFors.Any();
+            _isHealthChecksExpanded = _resource.HealthReports.Any();
 
             foreach (var item in SensitiveGridItems)
             {

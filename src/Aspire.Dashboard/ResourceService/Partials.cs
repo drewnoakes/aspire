@@ -48,13 +48,9 @@ partial class Resource
                 State = HasState ? State : null,
                 KnownState = HasState ? Enum.TryParse(State, out KnownResourceState knownState) ? knownState : null : null,
                 StateStyle = HasStateStyle ? StateStyle : null,
-                ReadinessState = HasHealthState ? HealthState switch
-                {
-                    HealthStateKind.Healthy => ReadinessState.Ready,
-                    _ => ReadinessState.NotReady,
-                } : ReadinessState.Unknown,
                 Commands = GetCommands(),
-                WaitFors = WaitFors.Select(ToViewModel).ToImmutableArray(),
+                WaitFors = WaitFors.Select(ToWaitForViewModel).ToImmutableArray(),
+                HealthReports = HealthReports.Select(ToHealthReportViewModel).ToImmutableArray(),
             };
         }
         catch (Exception ex)
@@ -62,7 +58,7 @@ partial class Resource
             throw new InvalidOperationException($@"Error converting resource ""{Name}"" to {nameof(ResourceViewModel)}.", ex);
         }
 
-        WaitForViewModel ToViewModel(WaitFor waitFor)
+        WaitForViewModel ToWaitForViewModel(WaitFor waitFor)
         {
             return new WaitForViewModel(waitFor.ResourceName, Convert(waitFor.WaitType), waitFor.ExitCode);
 
@@ -73,6 +69,22 @@ partial class Resource
                     WaitType.WaitUntilHealthy => Dashboard.Model.WaitType.WaitUntilHealthy,
                     WaitType.WaitForCompletion => Dashboard.Model.WaitType.WaitForCompletion,
                     _ => throw new InvalidOperationException("Unknown wait type: " + waitType),
+                };
+            }
+        }
+
+        HealthReportViewModel ToHealthReportViewModel(HealthReport healthReport)
+        {
+            return new HealthReportViewModel(healthReport.Key, Convert(healthReport.Status), healthReport.Description, healthReport.Exception);
+
+            static Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus Convert(HealthStatus healthStatus)
+            {
+                return healthStatus switch
+                {
+                    HealthStatus.Unknown or HealthStatus.Healthy => Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Healthy,
+                    HealthStatus.Degraded => Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Degraded,
+                    HealthStatus.Unhealthy => Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy,
+                    _ => throw new InvalidOperationException("Unknown health status: " + healthStatus),
                 };
             }
         }

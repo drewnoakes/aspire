@@ -108,18 +108,40 @@
                     </PropertyGrid>
                 </FluentAccordionItem>
             }
+            <FluentAccordionItem Heading="@ControlStringsLoc[nameof(ControlsStrings.ResourceHealthChecksHeader)]" Expanded="@_isHealthChecksExpanded">
+                <div slot="end">
+                    <FluentBadge Appearance="Appearance.Neutral" Circular="true">
+                        @FilteredHealthReports.Count()
+                    </FluentBadge>
+                </div>
+                <PropertyGrid
+                    TItem="HealthReportViewModel"
+                    Items="@FilteredHealthReports"
+                    HighlightText="@_filter"
+                    GridTemplateColumns="1fr 1.5fr">
+                    <ExtraValueContent>
+                        @if (context.Description is not (null or ""))
+                        {
+                            <span>@context.Description</span>
+                        }
+                        @if (context.Exception is not (null or ""))
+                        {
+                            <span>@context.Exception</span>
+                        }
+                    </ExtraValueContent>
+                </PropertyGrid>
+            </FluentAccordionItem>
             <FluentAccordionItem Heading="@ControlStringsLoc[nameof(ControlsStrings.ResourceWaitsForHeader)]" Expanded="@_isWaitsForExpanded">
                 <div slot="end">
                     <FluentBadge Appearance="Appearance.Neutral" Circular="true">
                         @FilteredWaitsFor.Count()
                     </FluentBadge>
                 </div>
-                <PropertyGrid TItem="WaitForViewModel"
-                                Items="@FilteredWaitsFor"
-                                IsNameSortable="false"
-                                IsValueSortable="false"
-                                HighlightText="@_filter"
-                                GridTemplateColumns="1fr 1.5fr">
+                <PropertyGrid
+                    TItem="WaitForViewModel"
+                    Items="@FilteredWaitsFor"
+                    HighlightText="@_filter"
+                    GridTemplateColumns="1fr 1.5fr">
                     <ExtraValueContent>
                         @if (context.ExitCode is not 0)
                         {

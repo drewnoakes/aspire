@@ -547,6 +547,15 @@ namespace Aspire.Dashboard.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Health Checks.
+        /// </summary>
+        public static string ResourceHealthChecksHeader {
+            get {
+                return ResourceManager.GetString("ResourceHealthChecksHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resource.
         /// </summary>
         public static string ResourceLabel {
@@ -678,6 +687,33 @@ namespace Aspire.Dashboard.Resources {
         public static string SpanDetailsStartTime {
             get {
                 return ResourceManager.GetString("SpanDetailsStartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add filter.
+        /// </summary>
+        public static string StructuredFilteringAddFilter {
+            get {
+                return ResourceManager.GetString("StructuredFilteringAddFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filters.
+        /// </summary>
+        public static string StructuredFilteringFilters {
+            get {
+                return ResourceManager.GetString("StructuredFilteringFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No filters.
+        /// </summary>
+        public static string StructuredFilteringNoFilters {
+            get {
+                return ResourceManager.GetString("StructuredFilteringNoFilters", resourceCulture);
             }
         }
         

@@ -36,7 +36,3 @@
 ::deep resource-action-container {
     display: inline-block;
 }
-
-::deep .highlight {
-    background-color: var(--neutral-layer-1);
-}

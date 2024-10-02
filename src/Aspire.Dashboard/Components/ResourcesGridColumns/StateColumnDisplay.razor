@@ -2,13 +2,9 @@
 
 @{
     var vm = GetStateViewModel();
-    var waitsFor = Resource.KnownState is KnownResourceState.Waiting && Resource.WaitFors.IsEmpty ? null : string.Join(" ", Resource.WaitFors.Select(w => w.ResourceName));
 }
 
-<div
-    class="state-column-cell"
-    data-waits-for="@waitsFor"
-    data-resource-name="@Resource.DisplayName">
+<div class="state-column-cell">
 
     <FluentIcon
         Value="@vm.Icon"

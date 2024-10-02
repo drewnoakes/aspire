@@ -78,12 +78,12 @@ public class AzureRedisExtensionsTests(ITestOutputHelper output)
     }
 
     [Fact]
-    public async Task AddAzureRedisWithAccessKeyAuth()
+    public async Task AddAzureRedisWithAccessKeyAuthentication()
     {
         using var builder = TestDistributedApplicationBuilder.Create();
 
         var redis = builder.AddAzureRedis("cache")
-            .WithAccessKeyAuth();
+            .WithAccessKeyAuthentication();
 
         var manifest = await ManifestUtils.GetManifestWithBicep(redis.Resource);
 
@@ -123,11 +123,11 @@ public class AzureRedisExtensionsTests(ITestOutputHelper output)
               }
             }
 
-            resource keyVault 'Microsoft.KeyVault/vaults@2019-09-01' existing = {
+            resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
               name: keyVaultName
             }
             
-            resource connectionString 'Microsoft.KeyVault/vaults/secrets@2019-09-01' = {
+            resource connectionString 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
               name: 'connectionString'
               properties: {
                 value: '${cache.properties.hostName},ssl=true,password=${cache.listKeys().primaryKey}'

@@ -6,10 +6,11 @@ using Aspire.Hosting.ApplicationModel;
 using Aspire.Hosting.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Aspire.Hosting.Azure.Tests;
 
-public class AzureContainerAppsTests
+public class AzureContainerAppsTests(ITestOutputHelper output)
 {
     [Fact]
     public async Task AddContainerAppsInfrastructureAddsDeploymentTargetWithContainerAppToContainerResources()
@@ -98,7 +99,7 @@ public class AzureContainerAppsTests
           }
         }
         """;
-
+        output.WriteLine(bicep);
         Assert.Equal(expectedBicep, bicep);
     }
 
@@ -230,7 +231,7 @@ public class AzureContainerAppsTests
           }
         }
         """;
-
+        output.WriteLine(bicep);
         Assert.Equal(expectedBicep, bicep);
     }
 
@@ -245,7 +246,7 @@ public class AzureContainerAppsTests
         var db = builder.AddAzureCosmosDB("mydb").AddDatabase("db");
 
         // Postgres uses secret outputs + a literal connection string
-        var pgdb = builder.AddPostgres("pg").AsAzurePostgresFlexibleServer().AddDatabase("db");
+        var pgdb = builder.AddAzurePostgresFlexibleServer("pg").WithPasswordAuthentication().AddDatabase("db");
 
         // Connection string (should be considered a secret)
         var blob = builder.AddAzureStorage("storage").AddBlobs("blobs");
@@ -355,11 +356,11 @@ public class AzureContainerAppsTests
 
         param api_containerimage string
 
-        resource mydb_secretoutputs_kv 'Microsoft.KeyVault/vaults@2019-09-01' existing = {
+        resource mydb_secretoutputs_kv 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
           name: mydb_secretoutputs
         }
 
-        resource mydb_secretoutputs_kv_connectionString 'Microsoft.KeyVault/vaults/secrets@2019-09-01' existing = {
+        resource mydb_secretoutputs_kv_connectionString 'Microsoft.KeyVault/vaults/secrets@2023-07-01' existing = {
           name: 'connectionString'
           parent: mydb_secretoutputs_kv
         }
@@ -510,7 +511,7 @@ public class AzureContainerAppsTests
           }
         }
         """;
-
+        output.WriteLine(bicep);
         Assert.Equal(expectedBicep, bicep);
     }
 
@@ -607,7 +608,7 @@ public class AzureContainerAppsTests
           }
         }
         """;
-
+        output.WriteLine(bicep);
         Assert.Equal(expectedBicep, bicep);
     }
 
@@ -831,11 +832,11 @@ public class AzureContainerAppsTests
 
         param outputs_azure_container_apps_environment_id string
 
-        resource mydb_secretoutputs_kv 'Microsoft.KeyVault/vaults@2019-09-01' existing = {
+        resource mydb_secretoutputs_kv 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
           name: mydb_secretoutputs
         }
 
-        resource mydb_secretoutputs_kv_connectionString 'Microsoft.KeyVault/vaults/secrets@2019-09-01' existing = {
+        resource mydb_secretoutputs_kv_connectionString 'Microsoft.KeyVault/vaults/secrets@2023-07-01' existing = {
           name: 'connectionString'
           parent: mydb_secretoutputs_kv
         }
@@ -920,7 +921,7 @@ public class AzureContainerAppsTests
           }
         }
         """;
-
+        output.WriteLine(bicep);
         Assert.Equal(expectedBicep, bicep);
     }
 
@@ -1018,7 +1019,7 @@ public class AzureContainerAppsTests
           }
         }
         """;
-
+        output.WriteLine(bicep);
         Assert.Equal(expectedBicep, bicep);
     }
 
@@ -1122,7 +1123,7 @@ public class AzureContainerAppsTests
           }
         }
         """;
-
+        output.WriteLine(bicep);
         Assert.Equal(expectedBicep, bicep);
     }
 
@@ -1221,7 +1222,7 @@ public class AzureContainerAppsTests
           }
         }
         """;
-
+        output.WriteLine(bicep);
         Assert.Equal(expectedBicep, bicep);
     }
 
@@ -1358,7 +1359,7 @@ public class AzureContainerAppsTests
           }
         }
         """;
-
+        output.WriteLine(bicep);
         Assert.Equal(expectedBicep, bicep);
     }
 

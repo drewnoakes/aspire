@@ -12,6 +12,7 @@ fluent-toolbar p {
 
 fluent-toolbar[orientation=horizontal] {
     width: 100%;
+    padding-right: calc(var(--design-unit)* 2px);
 }
 
 fluent-toolbar::part(positioning-region) {
@@ -628,4 +629,9 @@ fluent-data-grid-cell.no-ellipsis {
 
 .layout fluent-toolbar > .fluent-input-label {
     margin-bottom: 0;
+}
+
+.action-divider {
+    display: inline;
+    vertical-align: sub;
 }

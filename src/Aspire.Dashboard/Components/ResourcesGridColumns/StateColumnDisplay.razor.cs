@@ -38,11 +38,10 @@ public partial class StateColumnDisplay
     }
 
     /// <summary>
-    /// Gets the tooltip for the state column.
+    /// Gets the tooltip for a cell in the state column of the resource grid.
     /// </summary>
     /// <remarks>
-    /// This is a static method as it needs to be called by the parent column component, as the
-    /// cell's tooltip is set at that level.
+    /// This is a static method so it can be called at the level of the parent column.
     /// </remarks>
     public static string? GetResourceStateTooltip(ResourceViewModel resource, IStringLocalizer<Columns> Loc)
     {

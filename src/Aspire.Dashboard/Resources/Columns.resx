@@ -194,11 +194,11 @@
     <comment>This term reflects the state of a resource that is running, but is not yet ready to receive requests.</comment>
   </data>
   <data name="RunningAndUnhealthyResourceStateToolTip" xml:space="preserve">
-    <value>Resource is running but not yet ready to receive requests.</value>
+    <value>Resource is running but not yet ready to receive requests</value>
     <comment>Tool tip text explaining that the resource is running but not yet ready to receive requests.</comment>
   </data>
   <data name="WaitingSingleResourceStateToolTip" xml:space="preserve">
-    <value>Waiting for resource '{0}' before starting.</value>
+    <value>Waiting for resource '{0}' before starting</value>
     <comment>Tool tip text explaining that the resource is waiting for another resource (to be ready, or to complete) before it will start itself. {0} is the name of the resource.</comment>
   </data>
   <data name="WaitingMultipleResourcesStateToolTip" xml:space="preserve">

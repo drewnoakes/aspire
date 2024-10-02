@@ -43,8 +43,8 @@
         <note>This term reflects the state of a resource that is running, but is not yet ready to receive requests.</note>
       </trans-unit>
       <trans-unit id="RunningAndUnhealthyResourceStateToolTip">
-        <source>Resource is running but not yet ready to receive requests.</source>
-        <target state="new">Resource is running but not yet ready to receive requests.</target>
+        <source>Resource is running but not yet ready to receive requests</source>
+        <target state="new">Resource is running but not yet ready to receive requests</target>
         <note>Tool tip text explaining that the resource is running but not yet ready to receive requests.</note>
       </trans-unit>
       <trans-unit id="SourceColumnDisplayContainerArgsTitle">
@@ -94,12 +94,12 @@
       </trans-unit>
       <trans-unit id="StateColumnResourceExited">
         <source>{0} is no longer running</source>
-        <target state="translated">{0} 不再執行</target>
+        <target state="needs-review-translation">{0} 不再執行</target>
         <note>{0} is a resource type</note>
       </trans-unit>
       <trans-unit id="StateColumnResourceExitedUnexpectedly">
         <source>{0} exited unexpectedly with exit code {1}</source>
-        <target state="translated">{0} 意外結束，結束代碼: {1}</target>
+        <target state="needs-review-translation">{0} 意外結束，結束代碼: {1}</target>
         <note>{0} is a resource type, {1} is a number</note>
       </trans-unit>
       <trans-unit id="UnknownStateLabel">
@@ -123,8 +123,8 @@
         <note>Tool tip text explaining that the resource is waiting for another resource (to be ready, or to complete) before it will start itself. {0} is a comma-separated list of resource names.</note>
       </trans-unit>
       <trans-unit id="WaitingSingleResourceStateToolTip">
-        <source>Waiting for resource '{0}' before starting.</source>
-        <target state="new">Waiting for resource '{0}' before starting.</target>
+        <source>Waiting for resource '{0}' before starting</source>
+        <target state="new">Waiting for resource '{0}' before starting</target>
         <note>Tool tip text explaining that the resource is waiting for another resource (to be ready, or to complete) before it will start itself. {0} is the name of the resource.</note>
       </trans-unit>
     </body>

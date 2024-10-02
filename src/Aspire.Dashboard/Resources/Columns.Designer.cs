@@ -133,7 +133,7 @@ namespace Aspire.Dashboard.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resource is running but not yet ready to receive requests..
+        ///   Looks up a localized string similar to Resource is running but not yet ready to receive requests.
         /// </summary>
         public static string RunningAndUnhealthyResourceStateToolTip {
             get {
@@ -277,7 +277,7 @@ namespace Aspire.Dashboard.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Waiting for resource &apos;{0}&apos; before starting..
+        ///   Looks up a localized string similar to Waiting for resource &apos;{0}&apos; before starting.
         /// </summary>
         public static string WaitingSingleResourceStateToolTip {
             get {
